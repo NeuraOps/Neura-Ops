@@ -9,41 +9,26 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import {
   AlertTriangle,
-  ArrowDown,
   ArrowUp,
-  Brain,
-  CheckCircle2,
-  // ChevronDown,
-  // ChevronUp,
   CircleDollarSign,
-  Clock,
-  Cog,
   LineChart,
-  // Loader2,
-  MessageSquare,
   Package,
   Percent,
   RefreshCw,
-  ShieldAlert,
   Sparkles,
-  TrendingDown,
-  TrendingUp,
   Zap,
   Settings,
-  Minus,
 } from 'lucide-react';
 import { ProductionChart } from '@/components/charts/ProductionChart';
 import { InventoryChart } from '@/components/charts/InventoryChart';
 import { FinancialChart } from '@/components/charts/FinancialChart';
-import { SalesChart } from '@/components/charts/SalesChart';
 import { AIInsightsCard } from '@/components/cards/AIInsightsCard';
 import { ChatAssistant } from '@/components/ChatAssistant';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
-import { Label } from 'recharts';
 import { ReorderAlerts } from './cards/ReorderAlerts';
 import MaterialUsage from './cards/MaterialUsage';
-import { SalesAndOrder } from './dashboard/salesandorder';
+import { SalesAndOrder } from './dashboard/SalesAndOrder';
 import { EOQAnalysisCard } from './cards/EOQAnalysisCard';
 
 import CostBreakdown from './cards/CostBreakdown';
@@ -142,27 +127,22 @@ interface ProductionEnergyMetrics {
 
 export default function Dashboard() {
 
-  const { toast } = useToast();
   const [showChat, setShowChat] = useState(false);
 
   const [data, setData] = useState<ProductionData[]>([]);
 
   const [oeeScore, setOeeScore] = useState<number | null>(null);
   const [prevOeeScore, setPrevOeeScore] = useState<number | null>(null);
-  const [changeInOee, setChangeInOee] = useState<number | null>(null);
 
   const [productionRate, setProductionRate] = useState<number | null>(null);
   const [prevProductionRate, setPrevProductionRate] = useState<number | null>(null);
-  const [changeInProductionRate, setChangeInProductionRate] = useState<number | null>(null);
 
+  const [oeeandproduction, setOeeandProduction] = useState<any>(null);
+  const [inventoryandcost, setInventoryandCost] = useState<any>(null);
 
-  const [oeeandproduction, setOeeandProduction] = useState(null);
-  const [inventoryandcost, setInventoryandCost] = useState(null);
+  const [machines, setMachines] = useState<any[]>([]);
 
-  const [machines, setMachines] = useState([]);
-
-
-  const [lossInsights, setLossInsights] = useState(null);
+  const [lossInsights, setLossInsights] = useState<any>(null);
 
   useEffect(() => {
     const fetchLossInsights = async () => {
@@ -200,7 +180,7 @@ export default function Dashboard() {
     fetchMachineStatus();
   }, []);
 
-  const getStatusColorClass = (status) => {
+  const getStatusColorClass = (status: string) => {
     switch (status) {
       case "Optimal":
         return "bg-green-500/10 text-green-500";
@@ -215,7 +195,7 @@ export default function Dashboard() {
     }
   };
 
-  const getProgressColor = (uptime) => {
+  const getProgressColor = (uptime: string) => {
     const value = parseFloat(uptime);
     if (isNaN(value)) return "bg-muted/30";
     if (value >= 85) return "bg-green-500/20";
@@ -366,9 +346,6 @@ export default function Dashboard() {
       setPrevOeeScore(prevOee);
       setPrevProductionRate(prevProductionRate)
 
-      setChangeInOee(calculateChangeInOee(oeeScore, prevOeeScore));
-      setChangeInProductionRate(calculateChangeInProductionRate(productionRate, prevProductionRate));
-
     }
   }, [data]); // Runs whenever `data` changes
 
@@ -459,7 +436,7 @@ export default function Dashboard() {
         } = machine;
 
         // Avoid division by zero
-        const safe = (numerator, denominator) => (denominator ? numerator / denominator : 0);
+        const safe = (numerator: number, denominator: number) => (denominator ? numerator / denominator : 0);
 
         const defectRate = safe(scrapUnits, totalUnitsProduced) * 100;
         const reworkRate = safe(goodUnitsProduced - goodUnitsWithoutRework, totalUnitsProduced) * 100;
@@ -498,7 +475,6 @@ export default function Dashboard() {
         reworkRate: (totalReworkRate / count).toFixed(2),
         fpy: (totalFPY / count).toFixed(2),
         productionRate: (totalProductionRate / count).toFixed(2),
-        oee: (totalOEE / count).toFixed(2),
       });
 
       setMachineMetrics(machineData);
@@ -545,7 +521,7 @@ export default function Dashboard() {
         } = machine;
 
         // Avoid division by zero
-        const safe = (numerator, denominator) => (denominator ? numerator / denominator : 0);
+        const safe = (numerator: number, denominator: number) => (denominator ? numerator / denominator : 0);
 
         const availability = safe(actualProductionTime, plannedProductionTime);
         const quality = safe(goodUnitsProduced, totalUnitsProduced);
@@ -585,7 +561,7 @@ export default function Dashboard() {
 
 
   const [overallEnergyMetrics, setOverallEnergyMetrics] = useState<OverallEnergyMetrics | null>(null);
-  const [selectedEnergyMetric, setSelectedEnergyMetric] = useState<keyof MachineEnergyMetrics>("oeeEfficiency"); // Default to OEE Efficiency
+  const [selectedEnergyMetric, setSelectedEnergyMetric] = useState<keyof MachineEnergyMetrics>("machineId"); // Default to machineId
   const [machineEnergyMetrics, setMachineEnergyMetrics] = useState<MachineEnergyMetrics[]>([]);
 
 
@@ -832,7 +808,7 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent>
                 <ScrollArea className="h-[300px] pr-4">
-                  {machines.map((machine, i) => (
+                  {machines.map((machine: any, i: number) => (
                     <div key={i} className="mb-4">
                       <div className="flex items-center justify-between">
                         <div className="font-medium">{machine.name}</div>
@@ -853,7 +829,7 @@ export default function Dashboard() {
 
                       {machine.alert && machine.issues?.length > 0 && (
                         <ul className="mt-1 ml-2 text-xs text-amber-600 list-disc">
-                          {machine.issues.map((issue, idx) => (
+                          {machine.issues.map((issue: any, idx: number) => (
                             <li key={idx}>{issue}</li>
                           ))}
                         </ul>
@@ -998,7 +974,7 @@ export default function Dashboard() {
                 <div>
                   <h4 className="font-semibold mb-2">🔧 Top Downtime Machines</h4>
                   <ul className="text-sm text-muted-foreground space-y-1">
-                    {lossInsights && (lossInsights.topDowntime.map((item, i) => (
+                    {lossInsights && (lossInsights.topDowntime.map((item: any, i: number) => (
                       <li key={i}>{item.machineId} – {item.totalDowntime} mins</li>
                     )))}
                   </ul>
@@ -1007,7 +983,7 @@ export default function Dashboard() {
                 <div>
                   <h4 className="font-semibold mb-2">🧴 Top Scrap-Producing Products</h4>
                   <ul className="text-sm text-muted-foreground space-y-1">
-                    {lossInsights && (lossInsights.topScrap.map((item, i) => (
+                    {lossInsights && (lossInsights.topScrap.map((item: any, i: number) => (
                       <li key={i}>{item.productName} – {item.scrapUnits} units</li>
                     )))}
                   </ul>
@@ -1016,7 +992,7 @@ export default function Dashboard() {
                 <div>
                   <h4 className="font-semibold mb-2">📉 Machines with Lowest OEE</h4>
                   <ul className="text-sm text-muted-foreground space-y-1">
-                    {lossInsights && (lossInsights.lowOEE.map((item, i) => (
+                    {lossInsights && (lossInsights.lowOEE.map((item: any, i: number) => (
                       <li key={i}>{item.machineId} – {item.oee.toFixed(2)}%</li>
                     )))}
                   </ul>
@@ -1025,7 +1001,7 @@ export default function Dashboard() {
                 <div>
                   <h4 className="font-semibold mb-2">🧮 Material Usage Deviations</h4>
                   <ul className="text-sm text-muted-foreground space-y-1">
-                    {lossInsights && (lossInsights.materialDeviation.map((item, i) => (
+                    {lossInsights && (lossInsights.materialDeviation.map((item: any, i: number) => (
                       <li key={i}>
                         {item.productName} – {item.diffPercent}% deviation
                       </li>

@@ -48,7 +48,6 @@ import { FixedCostInputForm } from './components/forms/FixedCostInputForm';
 import { VariableCostInputForm } from './components/forms/VariableCostInputForm';
 import FinanceOutputs from './components/Financial/FinanceOutputs';
 import ManufacturingFlow from './pages/ManufacturingFlow';
-import { ChakraProvider } from '@chakra-ui/react';
 import { MachineProductionDisplay } from './components/display/MachineProductionDisplay';
 import BottleneckDashboard from './pages/BottelneckDashboard';
 import CompanyRegistration from './components/forms/CompanyRegistration';

@@ -122,7 +122,7 @@ export function DataEntryForm() {
                                             <Input 
                                                 id={key} 
                                                 type="number" 
-                                                value={formData[key]} 
+                                                value={formData[key] || ''} 
                                                 onChange={(e) => handleInputChange(e, key)} 
                                             />
                                         </div>

@@ -43,7 +43,7 @@ const MaterialUsage = () => {
                     name: data.materialName,
                     actual: data.avgActualUsed,
                     estimated: data.avgEstimatedUsed,
-                    trend: Math.random() > 0.5 ? "up" : "down",
+                    trend: (Math.random() > 0.5 ? "up" : "down") as "up" | "down",
                     percent: parseFloat((Math.random() * 5).toFixed(1))
                 }));
 
