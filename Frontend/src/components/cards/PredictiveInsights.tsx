@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Brain, Sparkles } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -15,8 +15,12 @@ interface PredictiveInsight {
     action: string;
 }
 
+interface InsightsResponse {
+    format_9: PredictiveInsight[];
+}
+
 export default function PredictiveInsights({ refreshKey }: { refreshKey: number }) {
-    const [insights, setInsights] = useState<PredictiveInsight[]>([]);
+    const [insights, setInsights] = useState<InsightsResponse | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -55,7 +59,7 @@ export default function PredictiveInsights({ refreshKey }: { refreshKey: number 
                     <div className="text-sm text-muted-foreground">Loading insights...</div>
                 ) : (
                     <div className="space-y-4">
-                        {Array.isArray(insights.format_9) && insights.format_9.slice(0, 3).map((insight, i) => (
+                        {insights?.format_9?.slice(0, 3).map((insight: PredictiveInsight, i: number) => (
                             <div key={i} className="rounded-lg border bg-card p-4">
                                 <div className="flex items-center gap-2">
                                     <Brain className="h-5 w-5 text-primary" />

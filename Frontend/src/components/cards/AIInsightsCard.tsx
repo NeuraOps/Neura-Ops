@@ -17,27 +17,16 @@ import {
   TrendingDown,
   TrendingUp,
   Zap,
-  Clock,
   DollarSign,
-  Package,
   Users,
   Wrench,
   ShieldCheck,
+  AlertCircle,
   Activity,
   PieChart,
   Gauge,
-  Target,
   Boxes,
-  Factory,
-  Timer,
-  Truck,
-  Workflow,
-  Microscope,
-  Cpu,
-  Network,
-  BarChart,
-  Repeat,
-  AlertCircle
+  Truck
 } from 'lucide-react';
 import { useManufacturingData } from '@/hooks/useManufacturingData';
 import axios from 'axios';
@@ -251,12 +240,6 @@ const staticinsights = [
 export function AIInsightsCard({ refreshKey }: { refreshKey: number }) {
   const [activeInsight, setActiveInsight] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState('realtime');
-  const { manufacturingData, calculateOEE, calculateProductionRate, calculateCostPerUnit, calculateInventoryStatus } = useManufacturingData();
-
-  const oeeScore = calculateOEE();
-  const productionRate = calculateProductionRate();
-  const costPerUnit = calculateCostPerUnit();
-  const inventoryStatus = calculateInventoryStatus();
 
   const supplyChainInsight = {
     id: 'supply-chain',
@@ -384,71 +367,6 @@ export function AIInsightsCard({ refreshKey }: { refreshKey: number }) {
       timeframe: '3 months'
     }
   };
-
-  const advancedPredictiveInsights = [
-    ...predictiveInsights,
-    {
-      title: 'Supply Chain Risk',
-      icon: Truck,
-      value: 'Medium',
-      metric: 'Next Quarter',
-      progress: 65,
-      description: 'Potential disruption in raw material supply',
-      color: 'amber'
-    },
-    {
-      title: 'Energy Consumption',
-      icon: Zap,
-      value: '-8.5%',
-      metric: 'Projected Savings',
-      progress: 78,
-      description: 'Optimization opportunities identified',
-      color: 'emerald'
-    },
-    {
-      title: 'Workforce Planning',
-      icon: Users,
-      value: '+12%',
-      metric: 'Capacity Needs',
-      progress: 82,
-      description: 'Additional shift coverage required',
-      color: 'blue'
-    }
-  ];
-
-  const realTimeAlerts = [
-    {
-      id: 'alert-1',
-      type: 'critical',
-      title: 'Machine Anomaly Detected',
-      description: 'Unusual vibration patterns on Assembly Line B',
-      action: 'Investigate immediately',
-      timestamp: '2 minutes ago'
-    },
-    {
-      id: 'alert-2',
-      type: 'warning',
-      title: 'Quality Threshold Breach',
-      description: 'Defect rate exceeded 3% in last hour',
-      action: 'Quality check required',
-      timestamp: '15 minutes ago'
-    },
-    {
-      id: 'alert-3',
-      type: 'info',
-      title: 'Inventory Update',
-      description: 'Raw material stock below reorder point',
-      action: 'Review order quantities',
-      timestamp: '1 hour ago'
-    }
-  ];
-
-  const updatedInsights = [
-    ...staticinsights,
-    supplyChainInsight,
-    energyInsight,
-    workforceInsight
-  ];
 
   const getInsightIcon = (type: string) => {
     switch (type) {
@@ -723,7 +641,7 @@ export function AIInsightsCard({ refreshKey }: { refreshKey: number }) {
                         {activeInsight === insight.id && (
                           <div className="mt-4 space-y-4">
                             <div className="grid gap-4 md:grid-cols-3">
-                              {insight.metrics.map((metric, index) => (
+                              {insight.metrics.map((metric: any, index: number) => (
                                 <div key={index} className="space-y-2">
                                   <div className="flex items-center justify-between text-sm">
                                     <span>{metric.name}</span>
@@ -801,7 +719,7 @@ export function AIInsightsCard({ refreshKey }: { refreshKey: number }) {
                             <div className="space-y-2">
                               <div className="font-medium">AI Recommendations</div>
                               <ul className="space-y-2">
-                                {insight.recommendations.map((recommendation, index) => (
+                                {insight.recommendations.map((recommendation: any, index: number) => (
                                   <li key={index} className="flex items-start gap-2">
                                     <Lightbulb className="h-4 w-4 mt-1 text-primary" />
                                     <span className="text-sm">{recommendation}</span>

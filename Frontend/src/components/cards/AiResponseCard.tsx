@@ -281,10 +281,9 @@ import { ChevronDown, ChevronUp, Clock, Target, Users } from 'lucide-react';
 
 interface InsightCardProps {
     insight: AIInsight;
-    index: number;
 }
 
-export function InsightCard({ insight, index }: InsightCardProps) {
+export function InsightCard({ insight }: InsightCardProps) {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const toggleExpand = () => setIsExpanded(!isExpanded);
@@ -556,11 +555,10 @@ export default function AiResponseCard({ refreshKey }: { refreshKey: number }) {
             </div>
 
             <div className="grid gap-6">
-                {displayedInsights.map((insight, index) => (
+                {displayedInsights.map((insight) => (
                     <InsightCard
-                        key={index}
+                        key={insight.Insight_Title}
                         insight={insight}
-                        index={index}
                     />
                 ))}
             </div>

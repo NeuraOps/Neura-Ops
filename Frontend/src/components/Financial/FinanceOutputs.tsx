@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import { motion } from 'framer-motion';
-import { DollarSign, TrendingUp, Users, Archive, BarChart3, CreditCard } from 'lucide-react';
+import { TrendingUp, BarChart3 } from 'lucide-react';
 
 
 interface DataTableProps {
@@ -22,7 +22,7 @@ const DataTable: React.FC<DataTableProps> = ({ tableData, index }) => {
         }
     };
 
-    const item = {
+    const itemVariants = {
         hidden: { opacity: 0, y: 20 },
         show: { opacity: 1, y: 0 }
     };
@@ -63,10 +63,10 @@ const DataTable: React.FC<DataTableProps> = ({ tableData, index }) => {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                        {tableData.data.map((item, idx) => (
+                        {tableData.data.map((item, itemIdx) => (
                             <motion.tr
                                 key={item.category}
-                                variants={item}
+                                variants={itemVariants}
                                 className="hover:bg-gray-50 dark:hover:bg-gray-700"
                             >
                                 <td className="px-4 py-3 text-sm text-gray-800 dark:text-gray-200">
@@ -81,8 +81,8 @@ const DataTable: React.FC<DataTableProps> = ({ tableData, index }) => {
                                             <motion.div
                                                 initial={{ width: 0 }}
                                                 animate={{ width: `${(item.amount / total) * 100}%` }}
-                                                transition={{ duration: 0.8, delay: 0.2 + idx * 0.1 }}
-                                                className={`h-2 rounded-full ${idx % 3 === 0 ? 'bg-blue-500' : idx % 3 === 1 ? 'bg-purple-500' : 'bg-green-500'}`}
+                                                transition={{ duration: 0.8, delay: 0.2 + itemIdx * 0.1 }}
+                                                className={`h-2 rounded-full ${itemIdx % 3 === 0 ? 'bg-blue-500' : itemIdx % 3 === 1 ? 'bg-purple-500' : 'bg-green-500'}`}
                                             />
                                         </div>
                                         <span className="text-xs font-medium">
@@ -342,56 +342,6 @@ const StatCard: React.FC<StatCardProps> = ({
     );
 };
 
-
-import { Moon, Sun } from 'lucide-react';
-
-const ToggleTheme: React.FC = () => {
-    const [isDark, setIsDark] = useState(false);
-
-    useEffect(() => {
-        // Check if user has a theme preference in localStorage
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-            setIsDark(true);
-            document.documentElement.classList.add('dark');
-        } else {
-            setIsDark(false);
-            document.documentElement.classList.remove('dark');
-        }
-    }, []);
-
-    const toggleTheme = () => {
-        if (isDark) {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('theme', 'light');
-            setIsDark(false);
-        } else {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('theme', 'dark');
-            setIsDark(true);
-        }
-    };
-
-    return (
-        <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={toggleTheme}
-            className="fixed bottom-6 right-6 p-3 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 shadow-lg z-10"
-            aria-label="Toggle theme"
-        >
-            <motion.div
-                initial={false}
-                animate={{ rotate: isDark ? 180 : 0 }}
-                transition={{ duration: 0.5 }}
-            >
-                {isDark ? <Sun size={20} /> : <Moon size={20} />}
-            </motion.div>
-        </motion.button>
-    );
-};
 
 
 export interface GrossProfitItem {

@@ -4,7 +4,6 @@ import axios from 'axios';
 import { 
     Package, 
     Plus, 
-    Search, 
     Box,
     DollarSign,
     Scale,
@@ -17,7 +16,6 @@ import {
     Eye
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
     Card,
     CardContent,

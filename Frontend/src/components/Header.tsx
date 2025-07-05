@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Bell, Menu, MessageSquare, Moon, Search, Sun, User } from 'lucide-react';
+import { Bell, Menu, MessageSquare, Moon, Sun, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -73,7 +73,6 @@ export function Header({ sidebarOpen, setSidebarOpen }: HeaderProps) {
                 size="icon"
                 onClick={() => setShowSearch(true)}
               >
-                {/* <Search className="h-5 w-5 "/> */}
                 <p></p>
               </Button>
             )}

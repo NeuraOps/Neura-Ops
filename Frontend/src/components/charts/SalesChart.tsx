@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Line, ComposedChart } from 'recharts';
+import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Line, ComposedChart } from 'recharts';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader2 } from 'lucide-react';
@@ -22,23 +22,7 @@ interface ProductOrder {
   sellingPrice: number;
 }
 
-const monthlyData = [
-  { month: 'Jan', orders: 125, revenue: 425000, target: 400000 },
-  { month: 'Feb', orders: 132, revenue: 438000, target: 410000 },
-  { month: 'Mar', orders: 141, revenue: 452000, target: 420000 },
-  { month: 'Apr', orders: 138, revenue: 445000, target: 430000 },
-  { month: 'May', orders: 145, revenue: 460000, target: 440000 },
-  { month: 'Jun', orders: 152, revenue: 478000, target: 450000 },
-  { month: 'Jul', orders: 158, revenue: 492000, target: 460000 },
-  { month: 'Aug', orders: 162, revenue: 505000, target: 470000 },
-  { month: 'Sep', orders: 168, revenue: 520000, target: 480000 },
-  { month: 'Oct', orders: 175, revenue: 535000, target: 490000 },
-  { month: 'Nov', orders: 182, revenue: 550000, target: 500000 },
-  { month: 'Dec', orders: 188, revenue: 565000, target: 510000 },
-];
-
 export function SalesChart() {
-  const [viewType, setViewType] = useState('monthly');
   const [loading, setLoading] = useState(false);
   const [customerData, setCustomerData] = useState<CustomerOrder[]>([]);
   const [productData, setProductData] = useState<ProductOrder[]>([]);
@@ -118,7 +102,7 @@ export function SalesChart() {
   return (
     <Card className="border-0 shadow-none">
       <CardContent className="p-0">
-        <Tabs defaultValue="product" onValueChange={setViewType} className="w-full">
+        <Tabs defaultValue="product" className="w-full">
           <div className="flex items-center justify-between">
             <TabsList>
               {/* <TabsTrigger value="monthly">Monthly</TabsTrigger> */}
@@ -260,11 +244,13 @@ export function SalesChart() {
                   }}
                 />
                 <Legend />
-                <Bar 
+                <Line 
                   yAxisId="left"
+                  type="monotone" 
                   dataKey="revenue" 
-                  fill="hsl(var(--chart-1))" 
-                  radius={[4, 4, 0, 0]}
+                  stroke="hsl(var(--chart-1))" 
+                  strokeWidth={2}
+                  dot={false}
                   name="Revenue"
                 />
                 <Line 
@@ -336,11 +322,13 @@ export function SalesChart() {
                   }}
                 />
                 <Legend />
-                <Bar 
+                <Line 
                   yAxisId="left"
+                  type="monotone" 
                   dataKey="revenue" 
-                  fill="hsl(var(--chart-1))" 
-                  radius={[4, 4, 0, 0]}
+                  stroke="hsl(var(--chart-1))" 
+                  strokeWidth={2}
+                  dot={false}
                   name="Revenue"
                 />
                 <Line 

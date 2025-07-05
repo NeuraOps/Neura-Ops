@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
     Card,
@@ -299,14 +299,10 @@ const LedgerManagement = () => {
                                             </Badge>
                                         </TableCell>
                                         <TableCell className="text-center">
-                                            <Collapsible>
+                                            <Collapsible open={openPaymentHistory === ledger._id} onOpenChange={(open) => setOpenPaymentHistory(open ? ledger._id : null)}>
                                                 <CollapsibleTrigger asChild>
                                                     <Button variant="outline" size="sm">
-                                                        {openPaymentHistory === ledger._id ? (
-                                                            <ChevronUp className="h-4 w-4 mr-2" />
-                                                        ) : (
-                                                            <ChevronDown className="h-4 w-4 mr-2" />
-                                                        )}
+                                                        {openPaymentHistory === ledger._id ? <ChevronUp className="h-4 w-4 mr-2" /> : <ChevronDown className="h-4 w-4 mr-2" />}
                                                         History
                                                     </Button>
                                                 </CollapsibleTrigger>

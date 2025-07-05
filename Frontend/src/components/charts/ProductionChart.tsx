@@ -15,13 +15,11 @@ export function ProductionChart() {
   const [timeframe, setTimeframe] = useState('daily');
   const [dailyData, setDailyData] = useState<ProductionData[]>([]);
   const [weeklyData, setWeeklyData] = useState<ProductionData[]>([]);
-  const [loading, setLoading] = useState(false);
 
   const token = localStorage.getItem('token');
 
   const fetchDailyData = async () => {
     try {
-      setLoading(true);
       const response = await fetch('http://localhost:3000/api/v1/production/chart/daily', {
     headers: {
       Authorization: 'Bearer ' + token,
@@ -43,14 +41,11 @@ export function ProductionChart() {
         { day: 'Sat', production: 2850, target: 3000, defects: 38 },
         { day: 'Sun', production: 2100, target: 2400, defects: 25 },
       ]);
-    } finally {
-      setLoading(false);
     }
   };
 
   const fetchWeeklyData = async () => {
     try {
-      setLoading(true);
       const response = await fetch('http://localhost:3000/api/v1/production/chart/weekly', 
         {
     headers: {
@@ -71,8 +66,6 @@ export function ProductionChart() {
         { week: 'Week 3', production: 23800, target: 24000, defects: 310 },
         { week: 'Week 4', production: 24200, target: 24000, defects: 290 },
       ]);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -83,9 +76,6 @@ export function ProductionChart() {
       fetchWeeklyData();
     }
   }, [timeframe]);
-
-  const data = timeframe === 'daily' ? dailyData : weeklyData;
-  const xAxisKey = timeframe === 'daily' ? 'day' : 'week';
 
   return (
     <Card className="border-0 shadow-none">

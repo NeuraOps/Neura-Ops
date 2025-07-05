@@ -5,21 +5,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import {
   Brain,
-  Zap,
   LineChart,
   Settings,
-  BarChart3,
   CheckCircle2,
   XCircle,
   ArrowRight,
-  Factory,
-  Cpu,
   DollarSign,
   Gauge,
   ShieldCheck,
-  Clock,
-  Users,
-  Bot,
 } from 'lucide-react';
 
 const features = [
@@ -139,8 +132,6 @@ const comparisonFeatures = [
 ];
 
 export function LandingPage() {
-  const [selectedPlan, setSelectedPlan] = useState<string>("Professional");
-
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}

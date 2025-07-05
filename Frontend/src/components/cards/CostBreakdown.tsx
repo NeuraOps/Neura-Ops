@@ -1,9 +1,24 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios';
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 
-const fetchMonthlyCostBreakdown = async () => {
+interface CostData {
+    fixedCost: {
+        administrationTotal: number;
+        factoryOverheadTotal: number;
+        financialTotal: number;
+    };
+    variableCost: {
+        materialAndLaborTotal: number;
+        utilitiesAndConsumablesTotal: number;
+        salesAndLogisticsTotal: number;
+        qualityAndAfterSalesTotal: number;
+    };
+    grandTotalCost: number;
+}
+
+const fetchMonthlyCostBreakdown = async (): Promise<CostData | null> => {
 
     try {
         const res = await axios.get(
@@ -22,7 +37,7 @@ const fetchMonthlyCostBreakdown = async () => {
 };
 
 const CostBreakdown = () => {
-    const [data, setData] = useState(null);
+    const [data, setData] = useState<CostData | null>(null);
 
     useEffect(() => {
         fetchMonthlyCostBreakdown().then(setData);
@@ -61,7 +76,7 @@ const CostBreakdown = () => {
                             <div className="text-sm font-medium">₹{cost.cost.toLocaleString()}</div>
                         </div>
                         <div className="mt-1 flex items-center justify-between text-sm">
-                            <Progress value={parseFloat(cost.percent)} className="h-2 flex-1" />
+                            <Progress value={parseFloat(String(cost.percent))} className="h-2 flex-1" />
                             <span className="ml-2 text-xs text-muted-foreground">{cost.percent}%</span>
                         </div>
                         {i < costWithPercent.length - 1 && <Separator className="my-2" />}

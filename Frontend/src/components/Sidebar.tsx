@@ -6,15 +6,9 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Link } from 'react-router-dom';
 import {
-  BarChart3,
-  BoxIcon,
-  CircleDollarSign,
   ClipboardList,
   Home,
-  LayoutDashboard,
-  LineChart,
   Settings,
-  ShoppingCart,
   Users,
   Zap,
   ChevronRight,
@@ -24,9 +18,6 @@ import {
   Package, // Changed for "Production"
   PlusCircle, // Changed for "New Raw Material"
   ClipboardCheck, // Changed for "Orders"
-  Boxes, // Changed for "Raw Materials, Products, Customers and Suppliers"
-  BrainCircuit, // Changed for "AI Optimization"
-  FileText,// Changed for "Reports"
   BadgeIndianRupee,
   Handshake,
   ScanBarcode,
