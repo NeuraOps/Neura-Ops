@@ -1,5 +1,4 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -43,7 +42,6 @@ const fieldMappings: { label: string; key: keyof FormData }[] = [
 ];
 
 export function DataEntryForm() {
-    const navigate = useNavigate();
     const { toast } = useToast();
 
     const [formData, setFormData] = useState<FormData>({
@@ -76,15 +74,15 @@ export function DataEntryForm() {
         e.preventDefault();
         try {
             await axios.post('http://localhost:3000/api/v1/production', formData, {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
-  });
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
             toast({
                 title: "Data saved successfully",
                 description: "Your production data has been stored in the database."
             });
-            navigate('/');
+            // navigate('/'); // This line was removed as per the edit hint
         } catch (error) {
             toast({
                 title: "Error saving data",
@@ -101,7 +99,7 @@ export function DataEntryForm() {
                     <h1 className="text-3xl font-bold tracking-tight">Production Data Entry</h1>
                     <p className="text-muted-foreground">Enter your daily Production metrics</p>
                 </div>
-                <Button variant="outline" onClick={() => navigate('/')}> <ArrowLeft className="mr-2 h-4 w-4" /> Back to Dashboard </Button>
+                <Button variant="outline" onClick={() => window.history.back()}> <ArrowLeft className="mr-2 h-4 w-4" /> Back to Dashboard </Button>
             </div>
 
             <form onSubmit={handleSubmit}>
@@ -119,11 +117,11 @@ export function DataEntryForm() {
                                     {fieldMappings.map(({ label, key }, index) => (
                                         <div key={index} className="space-y-2">
                                             <Label htmlFor={key}>{label}</Label>
-                                            <Input 
-                                                id={key} 
-                                                type="number" 
-                                                value={formData[key] || ''} 
-                                                onChange={(e) => handleInputChange(e, key)} 
+                                            <Input
+                                                id={key}
+                                                type="number"
+                                                value={formData[key] === null ? '' : formData[key]}
+                                                onChange={(e) => handleInputChange(e, key)}
                                             />
                                         </div>
                                     ))}
@@ -133,7 +131,7 @@ export function DataEntryForm() {
                     </TabsContent>
                 </Tabs>
                 <CardFooter className="flex justify-between mt-6">
-                    <Button variant="outline" type="button" onClick={() => navigate('/')}>Cancel</Button>
+                    <Button variant="outline" type="button" onClick={() => window.history.back()}>Cancel</Button>
                     <Button type="submit"> <Save className="mr-2 h-4 w-4" /> Save Data </Button>
                 </CardFooter>
             </form>

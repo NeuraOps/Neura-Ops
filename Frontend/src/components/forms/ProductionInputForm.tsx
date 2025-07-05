@@ -19,7 +19,6 @@ import {
     XCircle,
     Hourglass,
     Settings,
-    Gauge,
     ChevronDown,
     ChevronUp,
     Factory
@@ -219,12 +218,12 @@ export function ProductionInputForm() {
     const { toast } = useToast();
 
     useEffect(() => {
-        axios.get('http://localhost:3000/api/v1/machine', 
+        axios.get('http://localhost:3000/api/v1/machine',
             {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
-  }
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token'),
+                },
+            }
         )
             .then(response => {
                 setMachines(response.data.machines);
@@ -238,7 +237,7 @@ export function ProductionInputForm() {
                 });
                 setFormData(initialFormData);
             })
-            .catch(error => {
+            .catch(() => {
                 toast({
                     title: "Error fetching machines",
                     description: "Could not load machines. Please try again.",
@@ -272,12 +271,12 @@ export function ProductionInputForm() {
         e.preventDefault();
         try {
             await Promise.all(machines.map(machine =>
-                axios.post(`http://localhost:3000/api/v1/production/`, formData[machine.machineId], 
+                axios.post(`http://localhost:3000/api/v1/production/`, formData[machine.machineId],
                     {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
-  }
+                        headers: {
+                            Authorization: 'Bearer ' + localStorage.getItem('token'),
+                        },
+                    }
                 )
             ));
             toast({

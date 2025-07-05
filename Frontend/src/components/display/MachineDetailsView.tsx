@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -49,10 +48,10 @@ export function MachineDetailsView() {
     useEffect(() => {
         axios.get('http://localhost:3000/api/v1/machine',
             {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
-  }
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token'),
+                },
+            }
         )
             .then(response => setData(response.data.machines))
             .catch(error => console.error('Error fetching data:', error));
@@ -75,7 +74,7 @@ export function MachineDetailsView() {
 
     return (
         <div className="container mx-auto py-8 px-4 space-y-8">
-            <motion.div 
+            <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="flex w-screen items-center justify-between"
@@ -103,7 +102,7 @@ export function MachineDetailsView() {
                             transition={{ delay: index * 0.1 }}
                         >
                             <Card className="overflow-hidden">
-                                <CardHeader 
+                                <CardHeader
                                     className="cursor-pointer hover:bg-muted/50 transition-colors"
                                     onClick={() => setExpandedMachine(expandedMachine === index ? null : index)}
                                 >
@@ -111,7 +110,7 @@ export function MachineDetailsView() {
                                         <CardTitle className="text-2xl flex items-center space-x-3">
                                             <span>Machine {index + 1}: {machine.machineName || "Unnamed Machine"}</span>
                                         </CardTitle>
-                                        {expandedMachine === index ? 
+                                        {expandedMachine === index ?
                                             <ChevronUp className="h-6 w-6 text-muted-foreground" /> :
                                             <ChevronDown className="h-6 w-6 text-muted-foreground" />
                                         }
@@ -130,8 +129,8 @@ export function MachineDetailsView() {
                                                 <Tabs defaultValue="generalMachineInfo" className="space-y-6">
                                                     <TabsList className="grid w-full grid-cols-5 h-auto gap-4 bg-background p-1">
                                                         {Object.entries(sections).map(([key, label]) => (
-                                                            <TabsTrigger 
-                                                                key={key} 
+                                                            <TabsTrigger
+                                                                key={key}
                                                                 value={key}
                                                                 className="data-[state=active]:shadow-lg transition-all duration-300"
                                                             >
@@ -181,7 +180,7 @@ export function MachineDetailsView() {
             >
                 <CardFooter className="flex justify-between mt-6">
                     <Link to="/machine-entry">
-                        <Button 
+                        <Button
                             variant="outline"
                             className="shadow-sm hover:shadow-lg transition-all"
                         >

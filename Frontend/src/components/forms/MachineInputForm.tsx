@@ -183,11 +183,11 @@ export function MachineInputForm() {
         e.preventDefault();
         try {
             const validatedData = machineSchema.parse(formData);
-            const response = await axios.post('http://localhost:3000/api/v1/machine', validatedData, {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
-  });
+            await axios.post('http://localhost:3000/api/v1/machine', validatedData, {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
             toast({
                 title: "Success!",
                 description: "Machine data has been saved successfully.",
@@ -242,8 +242,8 @@ export function MachineInputForm() {
                     <Input
                         type={type}
                         placeholder={placeholder}
-                        value={formData[key as keyof MachineForm] !== null && formData[key as keyof MachineForm] !== undefined 
-                            ? String(formData[key as keyof MachineForm]) 
+                        value={formData[key as keyof MachineForm] !== null && formData[key as keyof MachineForm] !== undefined
+                            ? String(formData[key as keyof MachineForm])
                             : ''}
                         onChange={(e) => handleInputChange(e, key as keyof MachineForm)}
                         className={errors[key as keyof MachineForm] ? 'border-destructive' : ''}

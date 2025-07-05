@@ -49,8 +49,8 @@ const MaterialUsage = () => {
 
                 setMaterials(formatted);
             })
-            .catch((error) =>
-                console.error("Error fetching material usage data:", error)
+            .catch(() =>
+                console.error("Error fetching material usage data")
             )
             .finally(() => setLoading(false));
     }, []);

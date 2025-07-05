@@ -6,7 +6,6 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useToast } from '@/hooks/use-toast';
 import {
   AlertTriangle,
   ArrowUp,
@@ -57,24 +56,6 @@ interface ProductionData {
   maxProductionCapacity: number;
 }
 
-
-interface MachineData {
-  machineId: string;
-  plannedProductionTime: number;
-  actualProductionTime: number;
-  totalUnitsProduced: number;
-  goodUnitsProduced: number;
-  goodUnitsWithoutRework: number;
-  scrapUnits: number;
-  idealCycleTime: number;
-  totalDowntime: number;
-  totalTimeTaken: number;
-  changeoverTime: number;
-  actualMachineRunTime: number;
-  availableMachineTime: number;
-  maxProductionCapacity: number;
-}
-
 interface MachineMetrics {
   machineId: string;
   defectRate: string;
@@ -88,6 +69,7 @@ interface OverallMetrics {
   reworkRate: string;
   fpy: string;
   productionRate: string;
+  oee: string;
 }
 
 // Define machine-specific efficiency metrics
@@ -105,25 +87,50 @@ interface OverallEfficiencyMetrics {
   productionEfficiency: string;
 }
 
-interface OverallEnergyMetrics {
-  oeeEfficiency: string;
-  machineUtilizationEfficiency: string;
-  productionEfficiency: string;
+// Add missing type definitions for API responses
+interface OeeAndProductionData {
+  oee: number;
+  productionRate: number;
 }
 
-interface MachineEnergyMetrics {
-  machineId: string;
-  machineName: string;
-  energyConsumptionPerUnit: number;
-  totalEnergyCostPerMonth: number;
+interface InventoryAndCostData {
+  inventoryStatus: {
+    percentHealthy: number;
+    belowReorderPoint: number;
+    message: string;
+  };
+  costPerUnit: {
+    averageCost: number;
+    message: string;
+  };
 }
 
-interface ProductionEnergyMetrics {
-  machineId: string;
-  totalUnitsProduced: number;
-  actualMachineRunTime: number;
+interface MachineStatus {
+  name: string;
+  status: string;
+  uptime: string;
+  alert: boolean;
+  issues?: string[];
 }
 
+interface LossInsightsData {
+  topDowntime: Array<{
+    machineId: string;
+    totalDowntime: number;
+  }>;
+  topScrap: Array<{
+    productName: string;
+    scrapUnits: number;
+  }>;
+  lowOEE: Array<{
+    machineId: string;
+    oee: number;
+  }>;
+  materialDeviation: Array<{
+    productName: string;
+    diffPercent: number;
+  }>;
+}
 
 export default function Dashboard() {
 
@@ -132,17 +139,17 @@ export default function Dashboard() {
   const [data, setData] = useState<ProductionData[]>([]);
 
   const [oeeScore, setOeeScore] = useState<number | null>(null);
-  const [prevOeeScore, setPrevOeeScore] = useState<number | null>(null);
 
   const [productionRate, setProductionRate] = useState<number | null>(null);
-  const [prevProductionRate, setPrevProductionRate] = useState<number | null>(null);
 
-  const [oeeandproduction, setOeeandProduction] = useState<any>(null);
-  const [inventoryandcost, setInventoryandCost] = useState<any>(null);
 
-  const [machines, setMachines] = useState<any[]>([]);
+  const [oeeandproduction, setOeeandProduction] = useState<OeeAndProductionData | null>(null);
+  const [inventoryandcost, setInventoryandCost] = useState<InventoryAndCostData | null>(null);
 
-  const [lossInsights, setLossInsights] = useState<any>(null);
+  const [machines, setMachines] = useState<MachineStatus[]>([]);
+
+
+  const [lossInsights, setLossInsights] = useState<LossInsightsData | null>(null);
 
   useEffect(() => {
     const fetchLossInsights = async () => {
@@ -324,28 +331,11 @@ export default function Dashboard() {
     return { oee, productionRate };
   };
 
-  // ✅ Function to calculate change in OEE
-  const calculateChangeInOee = (oee: number | null, prevOee: number | null) => {
-    if (prevOee === null || oee === null) return 0;
-    return ((oee - prevOee) / prevOee) * 100; // Percentage change
-  };
-
-  // ✅ Function to calculate change in Production Rate
-  const calculateChangeInProductionRate = (productionRate: number | null, prevProductionRate: number | null) => {
-    if (prevProductionRate === null || productionRate === null) return 0;
-    return ((productionRate - prevProductionRate) / prevProductionRate) * 100; // Percentage change
-  };
-
   useEffect(() => {
     if (data.length > 0) {
       const { oee, productionRate } = calculateMetrics(0);
       setOeeScore(oee);
       setProductionRate(productionRate);
-
-      const { oee: prevOee, productionRate: prevProductionRate } = calculateMetrics(1);
-      setPrevOeeScore(prevOee);
-      setPrevProductionRate(prevProductionRate)
-
     }
   }, [data]); // Runs whenever `data` changes
 
@@ -421,7 +411,7 @@ export default function Dashboard() {
         totalProductionRate = 0,
         totalOEE = 0;
 
-      const machineData = data.map((machine) => {
+      const machineData = data.map((machine: any) => {
         const {
           machineId,
           scrapUnits,
@@ -432,7 +422,6 @@ export default function Dashboard() {
           actualProductionTime,
           plannedProductionTime,
           totalDowntime,
-          actualMachineRunTime,
         } = machine;
 
         // Avoid division by zero
@@ -475,6 +464,7 @@ export default function Dashboard() {
         reworkRate: (totalReworkRate / count).toFixed(2),
         fpy: (totalFPY / count).toFixed(2),
         productionRate: (totalProductionRate / count).toFixed(2),
+        oee: (totalOEE / count).toFixed(2),
       });
 
       setMachineMetrics(machineData);
@@ -507,7 +497,7 @@ export default function Dashboard() {
         totalMachineUtilizationEfficiency = 0,
         totalProductionEfficiency = 0;
 
-      const machineEfficiencyData = data.map(machine => {
+      const machineEfficiencyData = data.map((machine: any) => {
         const {
           machineId,
           actualProductionTime,
@@ -557,12 +547,6 @@ export default function Dashboard() {
       console.error("Error fetching efficiency data:", error);
     }
   };
-
-
-
-  const [overallEnergyMetrics, setOverallEnergyMetrics] = useState<OverallEnergyMetrics | null>(null);
-  const [selectedEnergyMetric, setSelectedEnergyMetric] = useState<keyof MachineEnergyMetrics>("machineId"); // Default to machineId
-  const [machineEnergyMetrics, setMachineEnergyMetrics] = useState<MachineEnergyMetrics[]>([]);
 
 
   const [aiInsightLoading, setAiInsightLoading] = useState(false);
@@ -634,7 +618,7 @@ export default function Dashboard() {
             <div className="flex items-center space-x-2">
               <div className="text-2xl font-bold">
                 {/* {oeeScore !== null && oeeScore !== undefined ? oeeScore.toFixed(1) : "Loading..."}% */}
-                {oeeandproduction && oeeandproduction.oee} %
+                {oeeandproduction ? oeeandproduction.oee : "Loading..."} %
               </div>
             </div>
             <Progress value={oeeScore || 85} className="mt-3 h-2" />
@@ -651,7 +635,7 @@ export default function Dashboard() {
             <div className="flex items-center space-x-2">
               <div className="text-2xl font-bold">
                 {/* {productionRate ? productionRate.toFixed(1) : "Loading..."} */}
-                {oeeandproduction && oeeandproduction.productionRate}
+                {oeeandproduction ? oeeandproduction.productionRate : "Loading..."}
               </div>
               <p className="text-s text-muted-foreground mt-1">  units/min</p>
             </div>
@@ -669,15 +653,15 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="flex items-center space-x-2">
-              <div className="text-2xl font-bold">{inventoryandcost && inventoryandcost.inventoryStatus.percentHealthy} %</div>
+              <div className="text-2xl font-bold">{inventoryandcost ? inventoryandcost.inventoryStatus.percentHealthy : "Loading..."} %</div>
               <Badge className="bg-amber-500 text-xs">
                 <AlertTriangle className="mr-1 h-3 w-3" />
-                {inventoryandcost && inventoryandcost.inventoryStatus.belowReorderPoint} Low
+                {inventoryandcost ? inventoryandcost.inventoryStatus.belowReorderPoint : 0} Low
               </Badge>
             </div>
             <Progress value={92} className="mt-3 h-2" />
             <p className="text-xs text-muted-foreground mt-2">
-              {inventoryandcost && inventoryandcost.inventoryStatus.message}
+              {inventoryandcost ? inventoryandcost.inventoryStatus.message : "Loading..."}
             </p>
           </CardContent>
         </Card>
@@ -691,11 +675,11 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="flex items-center space-x-2">
-              <div className="text-2xl font-bold">${inventoryandcost && inventoryandcost.costPerUnit.averageCost}</div>
+              <div className="text-2xl font-bold">${inventoryandcost ? inventoryandcost.costPerUnit.averageCost : "Loading..."}</div>
             </div>
             <Progress value={65} className="mt-3 h-2" />
             <p className="text-xs text-muted-foreground mt-2">
-              {inventoryandcost && inventoryandcost.costPerUnit.message}
+              {inventoryandcost ? inventoryandcost.costPerUnit.message : "Loading..."}
             </p>
           </CardContent>
         </Card>
@@ -808,7 +792,7 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent>
                 <ScrollArea className="h-[300px] pr-4">
-                  {machines.map((machine: any, i: number) => (
+                  {machines.map((machine: MachineStatus, i: number) => (
                     <div key={i} className="mb-4">
                       <div className="flex items-center justify-between">
                         <div className="font-medium">{machine.name}</div>
@@ -827,9 +811,9 @@ export default function Dashboard() {
                         )}
                       </div>
 
-                      {machine.alert && machine.issues?.length > 0 && (
+                      {machine.alert && machine.issues && machine.issues.length > 0 && (
                         <ul className="mt-1 ml-2 text-xs text-amber-600 list-disc">
-                          {machine.issues.map((issue: any, idx: number) => (
+                          {machine.issues.map((issue: string, idx: number) => (
                             <li key={idx}>{issue}</li>
                           ))}
                         </ul>
@@ -974,7 +958,7 @@ export default function Dashboard() {
                 <div>
                   <h4 className="font-semibold mb-2">🔧 Top Downtime Machines</h4>
                   <ul className="text-sm text-muted-foreground space-y-1">
-                    {lossInsights && (lossInsights.topDowntime.map((item: any, i: number) => (
+                    {lossInsights && (lossInsights.topDowntime.map((item: { machineId: string; totalDowntime: number }, i: number) => (
                       <li key={i}>{item.machineId} – {item.totalDowntime} mins</li>
                     )))}
                   </ul>
@@ -983,7 +967,7 @@ export default function Dashboard() {
                 <div>
                   <h4 className="font-semibold mb-2">🧴 Top Scrap-Producing Products</h4>
                   <ul className="text-sm text-muted-foreground space-y-1">
-                    {lossInsights && (lossInsights.topScrap.map((item: any, i: number) => (
+                    {lossInsights && (lossInsights.topScrap.map((item: { productName: string; scrapUnits: number }, i: number) => (
                       <li key={i}>{item.productName} – {item.scrapUnits} units</li>
                     )))}
                   </ul>
@@ -992,7 +976,7 @@ export default function Dashboard() {
                 <div>
                   <h4 className="font-semibold mb-2">📉 Machines with Lowest OEE</h4>
                   <ul className="text-sm text-muted-foreground space-y-1">
-                    {lossInsights && (lossInsights.lowOEE.map((item: any, i: number) => (
+                    {lossInsights && (lossInsights.lowOEE.map((item: { machineId: string; oee: number }, i: number) => (
                       <li key={i}>{item.machineId} – {item.oee.toFixed(2)}%</li>
                     )))}
                   </ul>
@@ -1001,7 +985,7 @@ export default function Dashboard() {
                 <div>
                   <h4 className="font-semibold mb-2">🧮 Material Usage Deviations</h4>
                   <ul className="text-sm text-muted-foreground space-y-1">
-                    {lossInsights && (lossInsights.materialDeviation.map((item: any, i: number) => (
+                    {lossInsights && (lossInsights.materialDeviation.map((item: { productName: string; diffPercent: number }, i: number) => (
                       <li key={i}>
                         {item.productName} – {item.diffPercent}% deviation
                       </li>

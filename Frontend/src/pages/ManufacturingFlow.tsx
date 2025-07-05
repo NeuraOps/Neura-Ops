@@ -1,54 +1,64 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Loader2, AlertTriangle } from 'lucide-react';
-
-import { Cpu, Database, Package, HandIcon } from 'lucide-react';
-
-const Legend: React.FC = () => {
-    return (
-        <div className="flex flex-wrap gap-4 justify-center bg-gray-800/30 rounded-lg p-4 mb-6">
-            <div className="flex items-center gap-2">
-                <div className="p-1 rounded-md bg-blue-950/40 border border-blue-600/30">
-                    <Database className="w-4 h-4 text-blue-400" />
-                </div>
-                <span className="text-sm text-gray-300">Raw material</span>
-            </div>
-
-            <div className="flex items-center gap-2">
-                <div className="p-1 rounded-md bg-blue-950/40 border border-blue-600/30">
-                    <Cpu className="w-4 h-4 text-blue-400" />
-                </div>
-                <span className="text-sm text-gray-300">Machine</span>
-            </div>
-
-            <div className="flex items-center gap-2">
-                <div className="p-1 rounded-md bg-cyan-950/40 border border-cyan-600/30">
-                    <Package className="w-4 h-4 text-cyan-400" />
-                </div>
-                <span className="text-sm text-gray-300">Semi-finished</span>
-            </div>
-
-            <div className="flex items-center gap-2">
-                <div className="p-1 rounded-md bg-emerald-950/40 border border-emerald-600/30">
-                    <Package className="w-4 h-4 text-emerald-400" />
-                </div>
-                <span className="text-sm text-gray-300">End product</span>
-            </div>
-
-            <div className="flex items-center gap-2">
-                <div className="p-1 rounded-md bg-purple-950/40 border border-purple-600/30">
-                    <HandIcon className="w-4 h-4 text-purple-400" />
-                </div>
-                <span className="text-sm text-gray-300">Manual job</span>
-            </div>
-        </div>
-    );
-};
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+    Loader2, 
+    AlertTriangle, 
+    Cpu, 
+    Database, 
+    Package, 
+    HandIcon,
+    Cylinder,
+    ArrowRight, 
+    AlertCircle as CircleAlert,
+    ChevronDown, 
+    ChevronUp,
+    Bot as Bottle, 
+    FlaskRound as Flask
+} from 'lucide-react';
 
 
+// const Legend: React.FC = () => {
+//     return (
+//         <div className="flex flex-wrap gap-4 justify-center bg-gray-800/30 rounded-lg p-4 mb-6">
+//             <div className="flex items-center gap-2">
+//                 <div className="p-1 rounded-md bg-blue-950/40 border border-blue-600/30">
+//                     <Database className="w-4 h-4 text-blue-400" />
+//                 </div>
+//                 <span className="text-sm text-gray-300">Raw material</span>
+//             </div>
 
+//             <div className="flex items-center gap-2">
+//                 <div className="p-1 rounded-md bg-blue-950/40 border border-blue-600/30">
+//                     <Cpu className="w-4 h-4 text-blue-400" />
+//                 </div>
+//                 <span className="text-sm text-gray-300">Machine</span>
+//             </div>
 
-import { motion } from 'framer-motion';
+//             <div className="flex items-center gap-2">
+//                 <div className="p-1 rounded-md bg-cyan-950/40 border border-cyan-600/30">
+//                     <Package className="w-4 h-4 text-cyan-400" />
+//                 </div>
+//                 <span className="text-sm text-gray-300">Semi-finished</span>
+//             </div>
+
+//             <div className="flex items-center gap-2">
+//                 <div className="p-1 rounded-md bg-emerald-950/40 border border-emerald-600/30">
+//                     <Package className="w-4 h-4 text-emerald-400" />
+//                 </div>
+//                 <span className="text-sm text-gray-300">End product</span>
+//             </div>
+
+//             <div className="flex items-center gap-2">
+//                 <div className="p-1 rounded-md bg-purple-950/40 border border-purple-600/30">
+//                     <HandIcon className="w-4 h-4 text-purple-400" />
+//                 </div>
+//                 <span className="text-sm text-gray-300">Manual job</span>
+//             </div>
+//         </div>
+//     );
+// };
+
 
 interface MachineNodeProps {
     name: string;
@@ -92,10 +102,6 @@ const MachineNode: React.FC<MachineNodeProps> = ({ name, status }) => {
         </motion.div>
     );
 };
-
-
-
-import { Cylinder } from 'lucide-react';
 
 interface MaterialNodeProps {
     name: string;
@@ -150,8 +156,6 @@ const MaterialNode: React.FC<MaterialNodeProps> = ({ name, quantity }) => {
     );
 };
 
-
-
 const ProcessArrow: React.FC = () => {
     return (
         <motion.div
@@ -179,11 +183,6 @@ const ProcessArrow: React.FC = () => {
         </motion.div>
     );
 };
-
-
-
-
-import { ArrowRight, AlertCircle as CircleAlert } from 'lucide-react';
 
 interface ProcessStepProps {
     step: Step;
@@ -307,11 +306,6 @@ const ProcessStep: React.FC<ProcessStepProps> = ({
     );
 };
 
-
-
-import { AnimatePresence } from 'framer-motion';
-import { ChevronDown, ChevronUp } from 'lucide-react';
-
 interface ProductFlowProps {
     flow: Flow;
 }
@@ -394,11 +388,6 @@ const ProductFlow: React.FC<ProductFlowProps> = ({ flow }) => {
     );
 };
 
-
-
-
-import { Bot as Bottle, FlaskRound as Flask } from 'lucide-react';
-
 interface ProductNodeProps {
     name: string;
     type: 'Product' | 'SemiFinishedProduct';
@@ -456,8 +445,6 @@ const ProductNode: React.FC<ProductNodeProps> = ({ name, type }) => {
     );
 };
 
-
-
 export type Step = {
     step: number;
     output: string;
@@ -474,9 +461,6 @@ export type Flow = {
     steps: Step[];
 };
 
-
-
-
 const ManufacturingFlow: React.FC = () => {
     const [flows, setFlows] = useState<Flow[]>([]);
     const [loading, setLoading] = useState(true);
@@ -489,8 +473,8 @@ const ManufacturingFlow: React.FC = () => {
                 setFlows(res.data.flows);
                 setLoading(false);
             })
-            .catch((err) => {
-                console.error('Error fetching flows', err);
+            .catch(() => {
+                console.error('Error fetching flows');
                 setError('Failed to load manufacturing flow data');
                 setLoading(false);
             });

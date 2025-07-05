@@ -69,7 +69,7 @@ export function FinancialChart() {
   return (
     <Card className="border-0 shadow-none">
       <CardContent className="p-0">
-        <Tabs defaultValue="monthly" onValueChange={(value) => setTimeframe(value as 'monthly' | 'quarterly' | 'yearly')} className="w-full">
+        <Tabs defaultValue="monthly" onValueChange={setTimeframe} className="w-full">
           <div className="flex items-center justify-between">
             <TabsList>
               <TabsTrigger value="monthly">Monthly</TabsTrigger>

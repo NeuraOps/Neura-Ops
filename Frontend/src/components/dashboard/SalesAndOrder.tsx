@@ -17,7 +17,6 @@ import {
     Package,
     Truck,
     Box,
-    AlertCircle,
 } from 'lucide-react';
 import { SalesChart } from '../charts/SalesChart';
 
@@ -80,33 +79,33 @@ export function SalesAndOrder() {
                 const [metricsRes, insightsRes, pipelineRes, ordersRes] = await Promise.all([
                     axios.get('http://localhost:3000/api/v1/orders/status-metrics',
                         {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
-  }
+                            headers: {
+                                Authorization: 'Bearer ' + localStorage.getItem('token'),
+                            },
+                        }
                     ),
                     axios.get('http://localhost:3000/api/v1/orders/customer-insights',
                         {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
-  }
+                            headers: {
+                                Authorization: 'Bearer ' + localStorage.getItem('token'),
+                            },
+                        }
                     ),
                     axios.get('http://localhost:3000/api/v1/orders/sales-pipeline',
                         {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
-  }
+                            headers: {
+                                Authorization: 'Bearer ' + localStorage.getItem('token'),
+                            },
+                        }
                     ),
                     axios.get(`http://localhost:3000/api/v1/orders${orderFilter === 'all' ? '' :
-                            orderFilter === 'completed' ? '/completed' : '/in-progress'
+                        orderFilter === 'completed' ? '/completed' : '/in-progress'
                         }`,
-                    {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
-  })
+                        {
+                            headers: {
+                                Authorization: 'Bearer ' + localStorage.getItem('token'),
+                            },
+                        })
                 ]);
 
                 console.log('Orders Response:', ordersRes.data.orders);
@@ -383,8 +382,8 @@ export function SalesAndOrder() {
                                         <div className="flex items-center justify-end">
                                             <Badge
                                                 className={`${order.status === 'Completed'
-                                                        ? 'bg-green-100 text-green-800'
-                                                        : 'bg-amber-100 text-amber-800'
+                                                    ? 'bg-green-100 text-green-800'
+                                                    : 'bg-amber-100 text-amber-800'
                                                     }`}
                                             >
                                                 {order.status}
