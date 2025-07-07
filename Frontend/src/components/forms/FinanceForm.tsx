@@ -149,7 +149,7 @@ export function FinanceForm() {
         e.preventDefault();
         try {
             const validatedData = revenueSchema.parse(formData);
-            await axios.post('http://localhost:3000/api/v1/finance', validatedData, {
+            await axios.post('https://neura-ops.onrender.com/api/v1/finance', validatedData, {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     },

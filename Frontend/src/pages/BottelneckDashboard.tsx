@@ -38,7 +38,7 @@ const fetchAiInsight = async () => {
         setAiError(null);
         setAiInsight([]);
 
-        const res = await axios.get("http://localhost:3000/api/v1/ai/bottleneck-insight",
+        const res = await axios.get("https://neura-ops.onrender.com/api/v1/ai/bottleneck-insight",
             {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -85,7 +85,7 @@ const fetchAiInsight = async () => {
         try {
             setLoading(true);
             const res = await axios.get(
-  "http://localhost:3000/api/v1/productionoutput/bottlenecks",
+  "https://neura-ops.onrender.com/api/v1/productionoutput/bottlenecks",
   {
     params: {
       startDate: startDate.toISOString(),

@@ -11,7 +11,7 @@ export function SuppliersPage() {
     useEffect(() => {
         const fetchSuppliers = async () => {
             try {
-                const response = await fetch("http://localhost:3000/api/v1/suppliers", {
+                const response = await fetch("https://neura-ops.onrender.com/api/v1/suppliers", {
     headers: {
       Authorization: 'Bearer ' + token,
     },

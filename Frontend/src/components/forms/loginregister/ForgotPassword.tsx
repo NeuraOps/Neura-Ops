@@ -236,7 +236,7 @@ const ForgotPassword: React.FC = () => {
         setError('');
 
         try {
-            const response = await fetch('http://localhost:3000/api/v1/auth/forgot-password', {
+            const response = await fetch('https://neura-ops.onrender.com/api/v1/auth/forgot-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

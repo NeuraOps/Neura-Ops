@@ -61,7 +61,7 @@ const ProductionPlanPage: React.FC = () => {
     const [procurement, setProcurement] = useState<ProcurementItem[]>([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/api/v1/production-plan',
+        axios.get('https://neura-ops.onrender.com/api/v1/production-plan',
             {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),

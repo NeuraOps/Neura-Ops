@@ -12,7 +12,7 @@ export function BusinessCustomersPage() {
     useEffect(() => {
         const fetchCustomers = async () => {
             try {
-                const response = await fetch("http://localhost:3000/api/v1/businessCustomer", {
+                const response = await fetch("https://neura-ops.onrender.com/api/v1/businessCustomer", {
                     headers: {
                         Authorization: 'Bearer ' + token,
                     },

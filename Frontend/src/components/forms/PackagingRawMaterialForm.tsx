@@ -162,7 +162,7 @@ export function PackagingRawMaterialForm() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/api/v1/product', {
+                const response = await axios.get('https://neura-ops.onrender.com/api/v1/product', {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     },
@@ -181,7 +181,7 @@ export function PackagingRawMaterialForm() {
 
     const handleSubmit = async (data: z.infer<typeof formSchema>) => {
         try {
-            await axios.post('http://localhost:3000/api/v1/packaging-materials', data, 
+            await axios.post('https://neura-ops.onrender.com/api/v1/packaging-materials', data, 
                 {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),

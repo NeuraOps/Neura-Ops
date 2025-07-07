@@ -656,7 +656,7 @@ export interface MachineData {
 
 
 // In a real application, this would use environment variables
-const API_BASE_URL = 'http://localhost:3000/api/v1';
+const API_BASE_URL = 'https://neura-ops.onrender.com/api/v1';
 
 // For development/demo purposes, we're returning mock data
 // In production, this would make a real API call

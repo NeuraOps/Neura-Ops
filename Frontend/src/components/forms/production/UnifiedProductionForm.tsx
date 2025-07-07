@@ -64,15 +64,15 @@ export function UnifiedProductionForm({ selectedDate: initialDate }: UnifiedProd
       
       // Fetch existing data for the selected date
       const [productionRes, productProductionRes, manualJobRes] = await Promise.all([
-        axios.get(`http://localhost:3000/api/v1/production/filtered?startDate=${dateStr}&endDate=${dateStr}`, {
+        axios.get(`https://neura-ops.onrender.com/api/v1/production/filtered?startDate=${dateStr}&endDate=${dateStr}`, {
           headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
         }).catch(() => ({ data: { productionsByDate: {} } })),
         
-        axios.get(`http://localhost:3000/api/v1/productproduction/filtered?startDate=${dateStr}&endDate=${dateStr}`, {
+        axios.get(`https://neura-ops.onrender.com/api/v1/productproduction/filtered?startDate=${dateStr}&endDate=${dateStr}`, {
           headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
         }).catch(() => ({ data: { productionsByDate: {} } })),
         
-        axios.get(`http://localhost:3000/api/v1/manual-job-productions/filtered?startDate=${dateStr}&endDate=${dateStr}`, {
+        axios.get(`https://neura-ops.onrender.com/api/v1/manual-job-productions/filtered?startDate=${dateStr}&endDate=${dateStr}`, {
           headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
         }).catch(() => ({ data: { productionsByDate: {} } }))
       ]);
@@ -135,15 +135,15 @@ export function UnifiedProductionForm({ selectedDate: initialDate }: UnifiedProd
       const prevDateStr = format(previousDay, 'yyyy-MM-dd');
 
       const [productionRes, productProductionRes, manualJobRes] = await Promise.all([
-        axios.get(`http://localhost:3000/api/v1/production/filtered?startDate=${prevDateStr}&endDate=${prevDateStr}`, {
+        axios.get(`https://neura-ops.onrender.com/api/v1/production/filtered?startDate=${prevDateStr}&endDate=${prevDateStr}`, {
           headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
         }).catch(() => ({ data: { productionsByDate: {} } })),
         
-        axios.get(`http://localhost:3000/api/v1/productproduction/filtered?startDate=${prevDateStr}&endDate=${prevDateStr}`, {
+        axios.get(`https://neura-ops.onrender.com/api/v1/productproduction/filtered?startDate=${prevDateStr}&endDate=${prevDateStr}`, {
           headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
         }).catch(() => ({ data: { productionsByDate: {} } })),
         
-        axios.get(`http://localhost:3000/api/v1/manual-job-productions/filtered?startDate=${prevDateStr}&endDate=${prevDateStr}`, {
+        axios.get(`https://neura-ops.onrender.com/api/v1/manual-job-productions/filtered?startDate=${prevDateStr}&endDate=${prevDateStr}`, {
           headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
         }).catch(() => ({ data: { productionsByDate: {} } }))
       ]);

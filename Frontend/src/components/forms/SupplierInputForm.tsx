@@ -84,7 +84,7 @@ export function SupplierInputForm() {
         e.preventDefault();
         try {
             const validatedData = supplierSchema.parse(formData);
-            await axios.post("http://localhost:3000/api/v1/suppliers", validatedData,
+            await axios.post("https://neura-ops.onrender.com/api/v1/suppliers", validatedData,
                 {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),

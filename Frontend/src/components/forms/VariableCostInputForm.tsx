@@ -56,7 +56,7 @@ export function VariableCostInputForm() {
 
         try {
             setLoading(true);
-            await axios.post('http://localhost:3000/api/v1/financecost/variable', filteredData,
+            await axios.post('https://neura-ops.onrender.com/api/v1/financecost/variable', filteredData,
                 {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),

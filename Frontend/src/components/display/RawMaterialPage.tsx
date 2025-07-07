@@ -29,7 +29,7 @@ export function RawMaterialPage() {
     useEffect(() => {
         const fetchMaterials = async () => {
             try {
-                const response = await fetch("http://localhost:3000/api/v1/rawmaterial", {
+                const response = await fetch("https://neura-ops.onrender.com/api/v1/rawmaterial", {
     headers: {
       Authorization: 'Bearer ' + token,
     },

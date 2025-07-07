@@ -400,14 +400,14 @@ const FinanceOutputs: React.FC = () => {
 
         try {
             const [grossProfitRes, summaryRes] = await Promise.all([
-                axios.get<GrossProfitResponse>('http://localhost:3000/api/v1/orders/grossprofit',
+                axios.get<GrossProfitResponse>('https://neura-ops.onrender.com/api/v1/orders/grossprofit',
                     {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     },
   }
                 ),
-                axios.get<FinanceSummary>('http://localhost:3000/api/v1/orders/financesummary',
+                axios.get<FinanceSummary>('https://neura-ops.onrender.com/api/v1/orders/financesummary',
                     {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),

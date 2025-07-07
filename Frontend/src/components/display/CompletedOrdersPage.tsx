@@ -75,7 +75,7 @@ const CompletedOrdersPage = () => {
 
   const fetchCompletedOrders = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/v1/orders/completed',
+      const response = await axios.get('https://neura-ops.onrender.com/api/v1/orders/completed',
         {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),

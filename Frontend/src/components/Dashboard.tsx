@@ -154,7 +154,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchLossInsights = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/v1/production/loss-insights", {
+        const res = await axios.get("https://neura-ops.onrender.com/api/v1/production/loss-insights", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token")
           }
@@ -171,7 +171,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchMachineStatus = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/v1/machine/status",
+        const res = await axios.get("https://neura-ops.onrender.com/api/v1/machine/status",
           {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token"),
@@ -214,7 +214,7 @@ export default function Dashboard() {
   const getProductionData = async (): Promise<ProductionData[]> => {
     try {
       const response = await axios.get<{ productions: ProductionData[] }>(
-        'http://localhost:3000/api/v1/production/average',
+        'https://neura-ops.onrender.com/api/v1/production/average',
         {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -236,7 +236,7 @@ export default function Dashboard() {
       try {
         console.log("called");
         const response = await axios.get(
-          "http://localhost:3000/api/v1/production/oeeandproduction",
+          "https://neura-ops.onrender.com/api/v1/production/oeeandproduction",
           {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token"),
@@ -260,7 +260,7 @@ export default function Dashboard() {
     const fetchInventoryandCost = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/v1/production/inventoryandcost",
+          "https://neura-ops.onrender.com/api/v1/production/inventoryandcost",
           {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token"),
@@ -351,7 +351,7 @@ export default function Dashboard() {
   // const fetchMetrics = async () => {
   //   try {
   //     const response = await axios.get<MachineData[]>(
-  //       "http://localhost:3000/api/v1/production/machineaverage",
+  //       "https://neura-ops.onrender.com/api/v1/production/machineaverage",
   //       {
   //   headers: {
   //     Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -397,7 +397,7 @@ export default function Dashboard() {
 
   const fetchMetrics = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/v1/production/machineaverage", {
+      const response = await axios.get("https://neura-ops.onrender.com/api/v1/production/machineaverage", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -485,7 +485,7 @@ export default function Dashboard() {
 
   const fetchEfficiencyMetrics = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/v1/production/machineaverage", {
+      const response = await axios.get("https://neura-ops.onrender.com/api/v1/production/machineaverage", {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token'),
         },
@@ -558,7 +558,7 @@ export default function Dashboard() {
   try {
     const token = localStorage.getItem("token");
     await axios.get(
-      "http://localhost:3000/api/v1/ai/dashboard-ai",
+      "https://neura-ops.onrender.com/api/v1/ai/dashboard-ai",
       {
         headers: {
           Authorization: "Bearer " + token,

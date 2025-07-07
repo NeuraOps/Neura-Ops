@@ -74,7 +74,7 @@ export default function ProductProductionInsights() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/api/v1/production-insights/product-insights',
+                const response = await axios.get('https://neura-ops.onrender.com/api/v1/production-insights/product-insights',
                     {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),

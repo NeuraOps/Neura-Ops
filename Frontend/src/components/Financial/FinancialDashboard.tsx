@@ -55,14 +55,14 @@ const FinancialDashboard = () => {
         const fetchData = async () => {
             try {
                 const [ledgersRes, invoicesRes] = await Promise.all([
-                    axios.get('http://localhost:3000/api/v1/financial/sales-ledger',
+                    axios.get('https://neura-ops.onrender.com/api/v1/financial/sales-ledger',
                         {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     },
   }
                     ),
-                    axios.get('http://localhost:3000/api/v1/financial/invoice',
+                    axios.get('https://neura-ops.onrender.com/api/v1/financial/invoice',
                         {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),

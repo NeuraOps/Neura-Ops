@@ -467,7 +467,7 @@ const ManufacturingFlow: React.FC = () => {
 
     useEffect(() => {
         axios
-            .get('http://localhost:3000/api/v1/product/manufacturing-flow')
+            .get('https://neura-ops.onrender.com/api/v1/product/manufacturing-flow')
             .then((res) => {
                 setFlows(res.data.flows);
                 setLoading(false);

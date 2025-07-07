@@ -183,7 +183,7 @@ export function MachineInputForm() {
         e.preventDefault();
         try {
             const validatedData = machineSchema.parse(formData);
-            await axios.post('http://localhost:3000/api/v1/machine', validatedData, {
+            await axios.post('https://neura-ops.onrender.com/api/v1/machine', validatedData, {
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
                 },

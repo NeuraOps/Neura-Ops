@@ -42,10 +42,10 @@ export function ManualJobFormSection({ selectedDate, isCompleted, onDataChange }
   const fetchProducts = async () => {
     try {
       const [productsRes, semiFinishedRes] = await Promise.all([
-        axios.get('http://localhost:3000/api/v1/product/with-manual-jobs', {
+        axios.get('https://neura-ops.onrender.com/api/v1/product/with-manual-jobs', {
           headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
         }),
-        axios.get('http://localhost:3000/api/v1/semifinished/with-manual-jobs', {
+        axios.get('https://neura-ops.onrender.com/api/v1/semifinished/with-manual-jobs', {
           headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
         }),
       ]);
@@ -115,7 +115,7 @@ export function ManualJobFormSection({ selectedDate, isCompleted, onDataChange }
           createdAt: targetDate.toISOString()
         };
         
-        await axios.post('http://localhost:3000/api/v1/manual-job-productions', data, {
+        await axios.post('https://neura-ops.onrender.com/api/v1/manual-job-productions', data, {
           headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
         });
       }

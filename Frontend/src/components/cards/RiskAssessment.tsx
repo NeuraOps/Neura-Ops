@@ -22,7 +22,7 @@ export default function RiskAssessment({ refreshKey }: { refreshKey: number }) {
         async function fetchRisks() {
             try {
                 const response = await axios.get(
-                    'http://localhost:3000/api/v1/ai/latest-airesponse',
+                    'https://neura-ops.onrender.com/api/v1/ai/latest-airesponse',
                     {
                         headers: {
                             Authorization: 'Bearer ' + localStorage.getItem('token'),

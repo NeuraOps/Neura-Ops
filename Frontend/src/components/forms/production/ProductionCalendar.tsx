@@ -39,13 +39,13 @@ export function ProductionCalendar({ selectedDate, onDateSelect, onTodayClick }:
     try {
       // Fetch data from all three endpoints
       const [productionRes, productProductionRes, manualJobRes] = await Promise.all([
-        axios.get('http://localhost:3000/api/v1/production/filtered', {
+        axios.get('https://neura-ops.onrender.com/api/v1/production/filtered', {
           headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
         }),
-        axios.get('http://localhost:3000/api/v1/productproduction/productproductionbydates', {
+        axios.get('https://neura-ops.onrender.com/api/v1/productproduction/productproductionbydates', {
           headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
         }),
-        axios.get('http://localhost:3000/api/v1/manual-job-productions', {
+        axios.get('https://neura-ops.onrender.com/api/v1/manual-job-productions', {
           headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
         })
       ]);

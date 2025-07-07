@@ -23,22 +23,22 @@ export function InventoryChart() {
   useEffect(() => {
     const fetchInventoryData = async () => {
       try {
-        const rawRes = await fetch('http://localhost:3000/api/v1/rawmaterial', {
+        const rawRes = await fetch('https://neura-ops.onrender.com/api/v1/rawmaterial', {
     headers: {
       Authorization: 'Bearer ' + token,
     },
   });
-        const productRes = await fetch('http://localhost:3000/api/v1/product', {
+        const productRes = await fetch('https://neura-ops.onrender.com/api/v1/product', {
     headers: {
       Authorization: 'Bearer ' + token,
     },
   });
-        const packagingRes = await fetch('http://localhost:3000/api/v1/packaging-materials', {
+        const packagingRes = await fetch('https://neura-ops.onrender.com/api/v1/packaging-materials', {
     headers: {
       Authorization: 'Bearer ' + token,
     },
   });
-        const semifinishedproductRes = await fetch('http://localhost:3000/api/v1/semifinished', {
+        const semifinishedproductRes = await fetch('https://neura-ops.onrender.com/api/v1/semifinished', {
     headers: {
       Authorization: 'Bearer ' + token,
     },

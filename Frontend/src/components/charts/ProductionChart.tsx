@@ -20,7 +20,7 @@ export function ProductionChart() {
 
   const fetchDailyData = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/v1/production/chart/daily', {
+      const response = await fetch('https://neura-ops.onrender.com/api/v1/production/chart/daily', {
     headers: {
       Authorization: 'Bearer ' + token,
     },
@@ -46,7 +46,7 @@ export function ProductionChart() {
 
   const fetchWeeklyData = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/v1/production/chart/weekly', 
+      const response = await fetch('https://neura-ops.onrender.com/api/v1/production/chart/weekly', 
         {
     headers: {
       Authorization: 'Bearer ' + token,

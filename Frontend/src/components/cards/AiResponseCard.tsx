@@ -486,7 +486,7 @@ export default function AiResponseCard({ refreshKey }: { refreshKey: number }) {
             setError(null);
 
             const response = await axios.get<APIResponse>(
-                'http://localhost:3000/api/v1/ai/latest-airesponse',
+                'https://neura-ops.onrender.com/api/v1/ai/latest-airesponse',
                 {
                     headers: {
                         Authorization: 'Bearer ' + localStorage.getItem('token'),

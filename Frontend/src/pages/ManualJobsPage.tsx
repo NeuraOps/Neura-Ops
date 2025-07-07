@@ -33,7 +33,7 @@ export default function ManualJobsPage() {
     useEffect(() => {
         const fetchManualJobs = async () => {
             try {
-                const response = await axios.get("http://localhost:3000/api/v1/manualjob",
+                const response = await axios.get("https://neura-ops.onrender.com/api/v1/manualjob",
                     {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),

@@ -95,7 +95,7 @@ const LedgerManagement = () => {
 
     const fetchLedgers = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/api/v1/financial/sales-ledger/active',
+            const response = await axios.get('https://neura-ops.onrender.com/api/v1/financial/sales-ledger/active',
                 {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -114,7 +114,7 @@ const LedgerManagement = () => {
         if (!selectedLedger) return;
 
         try {
-            await axios.put(`http://localhost:3000/api/v1/financial/sales-ledger/${selectedLedger}`, {
+            await axios.put(`https://neura-ops.onrender.com/api/v1/financial/sales-ledger/${selectedLedger}`, {
                 payment: {
                     ...newPayment,
                     date: new Date().toISOString()

@@ -124,7 +124,7 @@ export function SemiFinishedProductList() {
             setLoading(true);
             setError(null);
             const response = await axios.get(
-                "http://localhost:3000/api/v1/semifinished",
+                "https://neura-ops.onrender.com/api/v1/semifinished",
                 {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -154,7 +154,7 @@ export function SemiFinishedProductList() {
     const handleDelete = async (id: string) => {
         try {
             await axios.delete(
-                `http://localhost:3000/api/v1/semifinished/${id}`,
+                `https://neura-ops.onrender.com/api/v1/semifinished/${id}`,
                 {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),

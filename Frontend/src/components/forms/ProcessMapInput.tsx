@@ -32,21 +32,21 @@ export function ProcessMapInput({ processMap, onChange }: ProcessMapInputProps) 
             try {
                 setLoading(true);
                 const [rawMaterialsRes, semiFinishedRes, productsRes] = await Promise.all([
-                    axios.get('http://localhost:3000/api/v1/rawmaterial', 
+                    axios.get('https://neura-ops.onrender.com/api/v1/rawmaterial', 
                         {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     },
   }
                     ),
-                    axios.get('http://localhost:3000/api/v1/semifinished', 
+                    axios.get('https://neura-ops.onrender.com/api/v1/semifinished', 
                         {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     },
   }
                     ),
-                    axios.get('http://localhost:3000/api/v1/product', 
+                    axios.get('https://neura-ops.onrender.com/api/v1/product', 
                         {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),

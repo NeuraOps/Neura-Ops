@@ -51,13 +51,13 @@ export function ProductProductionFormSection({ selectedDate, isCompleted, onData
   const fetchData = async () => {
     try {
       const [finishedRes, semiRes, scrapRes] = await Promise.all([
-        axios.get("http://localhost:3000/api/v1/product/with-machines", {
+        axios.get("https://neura-ops.onrender.com/api/v1/product/with-machines", {
           headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
         }),
-        axios.get("http://localhost:3000/api/v1/semifinished/with-machines", {
+        axios.get("https://neura-ops.onrender.com/api/v1/semifinished/with-machines", {
           headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
         }),
-        axios.get("http://localhost:3000/api/v1/scrapreasons", {
+        axios.get("https://neura-ops.onrender.com/api/v1/scrapreasons", {
           headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
         })
       ]);
@@ -92,7 +92,7 @@ export function ProductProductionFormSection({ selectedDate, isCompleted, onData
   const handleCalculate = async () => {
     try {
       const { data } = await axios.post(
-        'http://localhost:3000/api/v1/productproduction/estimated',
+        'https://neura-ops.onrender.com/api/v1/productproduction/estimated',
         Object.values(formData),
         {
           headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
@@ -132,7 +132,7 @@ export function ProductProductionFormSection({ selectedDate, isCompleted, onData
           createdAt: targetDate.toISOString()
         };
 
-        return axios.post('http://localhost:3000/api/v1/productproduction/', form, {
+        return axios.post('https://neura-ops.onrender.com/api/v1/productproduction/', form, {
           headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
         });
       }));
@@ -234,7 +234,7 @@ export function ProductProductionFormSection({ selectedDate, isCompleted, onData
                   onAddNewReason={async (reason) => {
                     try {
                       const response = await axios.post(
-                        'http://localhost:3000/api/v1/scrapreasons',
+                        'https://neura-ops.onrender.com/api/v1/scrapreasons',
                         { reason },
                         { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') } }
                       );

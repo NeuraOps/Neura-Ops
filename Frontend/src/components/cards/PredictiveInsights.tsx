@@ -27,7 +27,7 @@ export default function PredictiveInsights({ refreshKey }: { refreshKey: number 
         async function fetchInsights() {
             try {
                 const response = await axios.get(
-                    'http://localhost:3000/api/v1/ai/latest-airesponse',
+                    'https://neura-ops.onrender.com/api/v1/ai/latest-airesponse',
                     {
                         headers: {
                             Authorization: 'Bearer ' + localStorage.getItem('token'),

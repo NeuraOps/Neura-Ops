@@ -46,7 +46,7 @@ export function MachineDetailsView() {
     const [expandedMachine, setExpandedMachine] = useState<number | null>(null);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/api/v1/machine',
+        axios.get('https://neura-ops.onrender.com/api/v1/machine',
             {
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('token'),

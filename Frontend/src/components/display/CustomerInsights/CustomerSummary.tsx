@@ -16,7 +16,7 @@ function CustomerSummary() {
     useEffect(() => {
         const fetchSummaryData = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/v1/orders/customer-insights', {
+                const response = await fetch('https://neura-ops.onrender.com/api/v1/orders/customer-insights', {
                     headers: {
                         Authorization: 'Bearer ' + token,
                     },

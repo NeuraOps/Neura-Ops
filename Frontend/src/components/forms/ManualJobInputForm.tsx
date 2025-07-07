@@ -130,7 +130,7 @@ export function ManualJobInputForm() {
         const fetchRawMaterials = async () => {
             try {
                 setLoadingRawMaterials(true);
-                const response = await axios.get("http://localhost:3000/api/v1/rawmaterial",
+                const response = await axios.get("https://neura-ops.onrender.com/api/v1/rawmaterial",
                     {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -236,7 +236,7 @@ export function ManualJobInputForm() {
             }
 
             // Make API call to create manual job
-            const response = await axios.post("http://localhost:3000/api/v1/manualjob", formData,
+            const response = await axios.post("https://neura-ops.onrender.com/api/v1/manualjob", formData,
                 {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),

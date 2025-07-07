@@ -55,7 +55,7 @@ export function MachineProductionDisplay() {
     useEffect(() => {
         const fetchProductions = async () => {
             try {
-                const response = await fetch("http://localhost:3000/api/v1/production/filtered", {
+                const response = await fetch("https://neura-ops.onrender.com/api/v1/production/filtered", {
     headers: {
       Authorization: 'Bearer ' + token,
     },

@@ -40,7 +40,7 @@
 //   useEffect(() => {
 //     const fetchData = async () => {
 //       try {
-//         const response = await axios.get('http://localhost:3000/api/v1/production-insights/manualjob-insights');
+//         const response = await axios.get('https://neura-ops.onrender.com/api/v1/production-insights/manualjob-insights');
 //         setData(response.data);
 //         setError(null);
 //       } catch (err) {
@@ -245,7 +245,7 @@ export default function ManualJobProductionInsights() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/v1/production-insights/manualjob-insights',
+        const response = await axios.get('https://neura-ops.onrender.com/api/v1/production-insights/manualjob-insights',
           {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),

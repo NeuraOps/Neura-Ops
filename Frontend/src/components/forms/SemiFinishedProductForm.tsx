@@ -215,7 +215,7 @@ export function SemiFinishedProductForm() {
     const fetchRawMaterials = async () => {
         try {
             setLoading(true);
-            const response = await axios.get("http://localhost:3000/api/v1/rawmaterial", 
+            const response = await axios.get("https://neura-ops.onrender.com/api/v1/rawmaterial", 
                 {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -238,7 +238,7 @@ export function SemiFinishedProductForm() {
     const fetchSemiFinishedProducts = async () => {
         try {
             setLoading(true);
-            const response = await axios.get("http://localhost:3000/api/v1/semifinished",
+            const response = await axios.get("https://neura-ops.onrender.com/api/v1/semifinished",
                 {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -261,7 +261,7 @@ export function SemiFinishedProductForm() {
     const fetchMachines = async () => {
         try {
             setLoading(true);
-            const response = await axios.get("http://localhost:3000/api/v1/machine",
+            const response = await axios.get("https://neura-ops.onrender.com/api/v1/machine",
                 {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -284,7 +284,7 @@ export function SemiFinishedProductForm() {
     const fetchManualJobs = async () => {
         try {
             setLoading(true);
-            const response = await axios.get("http://localhost:3000/api/v1/manualjob",
+            const response = await axios.get("https://neura-ops.onrender.com/api/v1/manualjob",
                 {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -492,7 +492,7 @@ export function SemiFinishedProductForm() {
 
     const onSubmit = async (data: SemiFinishedProductForm) => {
         try {
-            const response = await axios.post("http://localhost:3000/api/v1/semifinished", data,
+            const response = await axios.post("https://neura-ops.onrender.com/api/v1/semifinished", data,
                 {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),

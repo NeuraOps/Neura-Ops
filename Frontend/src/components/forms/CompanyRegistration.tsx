@@ -427,7 +427,7 @@ const CompanyRegistration: React.FC = () => {
             const submitData = { ...formData };
             delete (submitData as any).confirmPassword;
 
-            const response = await axios.post('http://localhost:3000/api/v1/auth/register', submitData);
+            const response = await axios.post('https://neura-ops.onrender.com/api/v1/auth/register', submitData);
 
             if (response.data) {
                 alert('Registration successful! Please check your email for verification link.');

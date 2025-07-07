@@ -33,7 +33,7 @@ export function FinancialChart() {
     async function fetchChartData() {
       setLoading(true);
       try {
-        const res = await fetch('http://localhost:3000/api/v1/invoice/chart-data', {
+        const res = await fetch('https://neura-ops.onrender.com/api/v1/invoice/chart-data', {
     headers: {
       Authorization: 'Bearer ' + token,
     },

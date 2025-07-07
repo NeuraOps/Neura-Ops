@@ -89,7 +89,7 @@ export function BusinessCustomerInputForm() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const productRes = await axios.get("http://localhost:3000/api/v1/product",
+                const productRes = await axios.get("https://neura-ops.onrender.com/api/v1/product",
                     {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -170,7 +170,7 @@ export function BusinessCustomerInputForm() {
         e.preventDefault();
         try {
             const validatedData = businessCustomerSchema.parse(formData);
-            await axios.post("http://localhost:3000/api/v1/businessCustomer", validatedData, {
+            await axios.post("https://neura-ops.onrender.com/api/v1/businessCustomer", validatedData, {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     },

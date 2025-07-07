@@ -42,14 +42,14 @@ export default function ManualJobProductionForm() {
         const fetchProductsWithManualJobs = async () => {
             try {
                 const [productsRes, semiFinishedRes] = await Promise.all([
-                    axios.get('http://localhost:3000/api/v1/product/with-manual-jobs',
+                    axios.get('https://neura-ops.onrender.com/api/v1/product/with-manual-jobs',
                         {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     },
   }
                     ),
-                    axios.get('http://localhost:3000/api/v1/semifinished/with-manual-jobs',
+                    axios.get('https://neura-ops.onrender.com/api/v1/semifinished/with-manual-jobs',
                         {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -125,7 +125,7 @@ export default function ManualJobProductionForm() {
         try {
             for (const product of products) {
                 const data = formData[product._id];
-                await axios.post('http://localhost:3000/api/v1/manual-job-productions', data, 
+                await axios.post('https://neura-ops.onrender.com/api/v1/manual-job-productions', data, 
                     {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),

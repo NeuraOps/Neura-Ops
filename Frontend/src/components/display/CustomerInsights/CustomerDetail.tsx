@@ -33,7 +33,7 @@ function CustomerDetail({ customer }: CustomerDetailProps) {
     useEffect(() => {
         const fetchCustomerDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/api/v1/customers/${customer._id}`, {
+                const response = await fetch(`https://neura-ops.onrender.com/api/v1/customers/${customer._id}`, {
     headers: {
       Authorization: 'Bearer ' + token,
     },
@@ -41,7 +41,7 @@ function CustomerDetail({ customer }: CustomerDetailProps) {
                 const data = await response.json();
                 setDetails(data);
 
-                const ordersResponse = await fetch(`http://localhost:3000/api/v1/orders/customer/${customer._id}`, {
+                const ordersResponse = await fetch(`https://neura-ops.onrender.com/api/v1/orders/customer/${customer._id}`, {
     headers: {
       Authorization: 'Bearer ' + token,
     },

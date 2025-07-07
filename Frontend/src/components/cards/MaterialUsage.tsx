@@ -30,7 +30,7 @@ const MaterialUsage = () => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:3000/api/v1/productproduction/productproductionusage", {
+            .get("https://neura-ops.onrender.com/api/v1/productproduction/productproductionusage", {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     },

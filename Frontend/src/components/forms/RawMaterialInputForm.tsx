@@ -116,7 +116,7 @@ export function RawMaterialInputForm() {
 
     const onSubmit = async (data: RawMaterialFormValues) => {
         try {
-            await axios.post('http://localhost:3000/api/v1/rawmaterial', data, 
+            await axios.post('https://neura-ops.onrender.com/api/v1/rawmaterial', data, 
                 {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),

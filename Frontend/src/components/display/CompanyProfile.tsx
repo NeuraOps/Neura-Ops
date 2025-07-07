@@ -72,7 +72,7 @@ export function CompanyProfile({ onBack }: CompanyProfileProps) {
             setError(null);
 
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:3000/api/v1/company', {
+            const response = await fetch('https://neura-ops.onrender.com/api/v1/company', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -100,7 +100,7 @@ export function CompanyProfile({ onBack }: CompanyProfileProps) {
             setError(null);
 
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:3000/api/v1/company', {
+            const response = await fetch('https://neura-ops.onrender.com/api/v1/company', {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,

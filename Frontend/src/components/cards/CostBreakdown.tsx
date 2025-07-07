@@ -22,7 +22,7 @@ const fetchMonthlyCostBreakdown = async (): Promise<CostData | null> => {
 
     try {
         const res = await axios.get(
-            `http://localhost:3000/api/v1/financecost/cboverall`,
+            `https://neura-ops.onrender.com/api/v1/financecost/cboverall`,
             {
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('token'),

@@ -124,7 +124,7 @@ const OrderUpdatePage = () => {
     const fetchOrders = async () => {
         try {
             const response = await axios.get<{ orders: Order[] }>(
-                'http://localhost:3000/api/v1/orders/in-progress',
+                'https://neura-ops.onrender.com/api/v1/orders/in-progress',
                 {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -212,7 +212,7 @@ const OrderUpdatePage = () => {
                 quantityDelivered: parseInt(update.quantityDelivered, 10), // Convert string to number for API
             }));
 
-            await axios.put('http://localhost:3000/api/v1/orders/bulk-deliver', {
+            await axios.put('https://neura-ops.onrender.com/api/v1/orders/bulk-deliver', {
                 updates,
             }, 
             {

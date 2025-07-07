@@ -146,22 +146,22 @@ export function ProductDetailsInputForm() {
         async function fetchData() {
             try {
                 const [rawRes, machineRes, manualRes, semiFinishedRes] = await Promise.all([
-                    axios.get('http://localhost:3000/api/v1/rawmaterial', {
+                    axios.get('https://neura-ops.onrender.com/api/v1/rawmaterial', {
                         headers: {
                             Authorization: 'Bearer ' + localStorage.getItem('token'),
                         },
                     }),
-                    axios.get('http://localhost:3000/api/v1/machine', {
+                    axios.get('https://neura-ops.onrender.com/api/v1/machine', {
                         headers: {
                             Authorization: 'Bearer ' + localStorage.getItem('token'),
                         },
                     }),
-                    axios.get('http://localhost:3000/api/v1/manualjob', {
+                    axios.get('https://neura-ops.onrender.com/api/v1/manualjob', {
                         headers: {
                             Authorization: 'Bearer ' + localStorage.getItem('token'),
                         },
                     }),
-                    axios.get('http://localhost:3000/api/v1/semifinished', {
+                    axios.get('https://neura-ops.onrender.com/api/v1/semifinished', {
                         headers: {
                             Authorization: 'Bearer ' + localStorage.getItem('token'),
                         },
@@ -291,7 +291,7 @@ export function ProductDetailsInputForm() {
                 ...formData,
                 // productionWorkflow: workflowSteps
             };
-            await axios.post('http://localhost:3000/api/v1/product', fullForm, {
+            await axios.post('https://neura-ops.onrender.com/api/v1/product', fullForm, {
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
                 },

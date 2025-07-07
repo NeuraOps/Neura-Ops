@@ -73,14 +73,14 @@ export function RawMaterialStockInputForm() {
         async function fetchData() {
             try {
                 const [rawMaterialRes, supplierRes] = await Promise.all([
-                    axios.get("http://localhost:3000/api/v1/rawmaterial", 
+                    axios.get("https://neura-ops.onrender.com/api/v1/rawmaterial", 
                         {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     },
   }
                     ),
-                    axios.get("http://localhost:3000/api/v1/suppliers", 
+                    axios.get("https://neura-ops.onrender.com/api/v1/suppliers", 
                         {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -142,14 +142,14 @@ export function RawMaterialStockInputForm() {
         try {
             const validatedData = rawMaterialStockSchema.parse(formData);
             
-            await axios.post("http://localhost:3000/api/v1/rawmaterialstock", validatedData, 
+            await axios.post("https://neura-ops.onrender.com/api/v1/rawmaterialstock", validatedData, 
                 {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     },
   }
             );
-            await axios.post("http://localhost:3000/api/v1/rawmaterial/update-stock", {
+            await axios.post("https://neura-ops.onrender.com/api/v1/rawmaterial/update-stock", {
                 rawMaterialCode: validatedData.rawMaterialId,
                 quantityReceived: validatedData.quantityReceived,
             }, 

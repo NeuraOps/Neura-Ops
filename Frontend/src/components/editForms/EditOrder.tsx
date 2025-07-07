@@ -83,21 +83,21 @@ export function EditOrder() {
         async function load() {
             try {
                 const [custRes, prodRes, orderRes] = await Promise.all([
-                    axios.get("http://localhost:3000/api/v1/businessCustomer",
+                    axios.get("https://neura-ops.onrender.com/api/v1/businessCustomer",
                         {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     },
   }
                     ),
-                    axios.get("http://localhost:3000/api/v1/product",
+                    axios.get("https://neura-ops.onrender.com/api/v1/product",
                         {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     },
   }
                     ),
-                    axios.get(`http://localhost:3000/api/v1/orders/${orderId}`,
+                    axios.get(`https://neura-ops.onrender.com/api/v1/orders/${orderId}`,
                         {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -163,7 +163,7 @@ export function EditOrder() {
 
     const handleUpdate = async () => {
         try {
-            await axios.put(`http://localhost:3000/api/v1/orders/${orderId}`, formData,
+            await axios.put(`https://neura-ops.onrender.com/api/v1/orders/${orderId}`, formData,
                 {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -179,7 +179,7 @@ export function EditOrder() {
 
     const handleCancelOrder = async () => {
         try {
-            await axios.put(`http://localhost:3000/api/v1/orders/${orderId}/cancel`,
+            await axios.put(`https://neura-ops.onrender.com/api/v1/orders/${orderId}/cancel`,
                 {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),

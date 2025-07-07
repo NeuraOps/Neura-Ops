@@ -73,7 +73,7 @@ export function DataEntryForm() {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:3000/api/v1/production', formData, {
+            await axios.post('https://neura-ops.onrender.com/api/v1/production', formData, {
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
                 },

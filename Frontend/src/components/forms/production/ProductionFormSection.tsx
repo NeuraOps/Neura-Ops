@@ -71,7 +71,7 @@ export function ProductionFormSection({ selectedDate, isCompleted, onDataChange 
 
     const fetchMachines = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/api/v1/machine', {
+            const response = await axios.get('https://neura-ops.onrender.com/api/v1/machine', {
                 headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
             });
 
@@ -132,7 +132,7 @@ export function ProductionFormSection({ selectedDate, isCompleted, onDataChange 
                     createdAt: targetDate.toISOString()
                 };
 
-                return axios.post('http://localhost:3000/api/v1/production/', dataToSave, {
+                return axios.post('https://neura-ops.onrender.com/api/v1/production/', dataToSave, {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 });
             }));

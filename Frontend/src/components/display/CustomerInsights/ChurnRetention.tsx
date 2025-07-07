@@ -17,7 +17,7 @@ function ChurnRetention() {
     useEffect(() => {
         const fetchChurnData = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/v1/customer-insights/churn', {
+                const response = await fetch('https://neura-ops.onrender.com/api/v1/customer-insights/churn', {
     headers: {
       Authorization: 'Bearer ' + token,
     },

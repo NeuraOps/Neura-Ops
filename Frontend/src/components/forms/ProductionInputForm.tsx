@@ -218,7 +218,7 @@ export function ProductionInputForm() {
     const { toast } = useToast();
 
     useEffect(() => {
-        axios.get('http://localhost:3000/api/v1/machine',
+        axios.get('https://neura-ops.onrender.com/api/v1/machine',
             {
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -271,7 +271,7 @@ export function ProductionInputForm() {
         e.preventDefault();
         try {
             await Promise.all(machines.map(machine =>
-                axios.post(`http://localhost:3000/api/v1/production/`, formData[machine.machineId],
+                axios.post(`https://neura-ops.onrender.com/api/v1/production/`, formData[machine.machineId],
                     {
                         headers: {
                             Authorization: 'Bearer ' + localStorage.getItem('token'),

@@ -75,12 +75,12 @@ export function EOQAnalysisCard() {
         
         // Fetch products and raw materials
         const [productsResponse, materialsResponse] = await Promise.all([
-          fetch('http://localhost:3000/api/v1/product', {
+          fetch('https://neura-ops.onrender.com/api/v1/product', {
     headers: {
       Authorization: 'Bearer ' + token,
     },
   }),
-          fetch('http://localhost:3000/api/v1/rawmaterial', {
+          fetch('https://neura-ops.onrender.com/api/v1/rawmaterial', {
     headers: {
       Authorization: 'Bearer ' + token,
     },

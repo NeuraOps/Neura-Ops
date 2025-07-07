@@ -209,7 +209,7 @@ const EmailVerification: React.FC = () => {
     const verifyEmail = async (verificationToken: string) => {
         setStatus('verifying');
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/auth/verify-email?token=${verificationToken}`, {
+            const response = await fetch(`https://neura-ops.onrender.com/api/v1/auth/verify-email?token=${verificationToken}`, {
                 method: 'GET',
             });
 
@@ -233,7 +233,7 @@ const EmailVerification: React.FC = () => {
 
         setIsResending(true);
         try {
-            const response = await fetch('http://localhost:3000/api/v1/auth/resend-verification', {
+            const response = await fetch('https://neura-ops.onrender.com/api/v1/auth/resend-verification', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

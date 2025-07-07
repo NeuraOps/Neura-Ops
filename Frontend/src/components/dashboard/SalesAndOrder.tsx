@@ -80,28 +80,28 @@ export function SalesAndOrder() {
         const fetchDashboardData = async () => {
             try {
                 const [metricsRes, insightsRes, pipelineRes, ordersRes] = await Promise.all([
-                    axios.get('http://localhost:3000/api/v1/orders/status-metrics',
+                    axios.get('https://neura-ops.onrender.com/api/v1/orders/status-metrics',
                         {
                             headers: {
                                 Authorization: 'Bearer ' + localStorage.getItem('token'),
                             },
                         }
                     ),
-                    axios.get('http://localhost:3000/api/v1/orders/customer-insights',
+                    axios.get('https://neura-ops.onrender.com/api/v1/orders/customer-insights',
                         {
                             headers: {
                                 Authorization: 'Bearer ' + localStorage.getItem('token'),
                             },
                         }
                     ),
-                    axios.get('http://localhost:3000/api/v1/orders/sales-pipeline',
+                    axios.get('https://neura-ops.onrender.com/api/v1/orders/sales-pipeline',
                         {
                             headers: {
                                 Authorization: 'Bearer ' + localStorage.getItem('token'),
                             },
                         }
                     ),
-                    axios.get(`http://localhost:3000/api/v1/orders${orderFilter === 'all' ? '' :
+                    axios.get(`https://neura-ops.onrender.com/api/v1/orders${orderFilter === 'all' ? '' :
                         orderFilter === 'completed' ? '/completed' : '/in-progress'
                         }`,
                         {

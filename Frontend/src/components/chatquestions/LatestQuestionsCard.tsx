@@ -37,7 +37,7 @@ export function LatestQuestionsCard({ refreshKey }: LatestQuestionsCardProps) {
             setError(null);
 
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:3000/api/v1/chat/latest-questions', {
+            const response = await fetch('https://neura-ops.onrender.com/api/v1/chat/latest-questions', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',

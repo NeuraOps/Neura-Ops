@@ -12,7 +12,7 @@ export function FinancialSummaryCard() {
         const fetchSummary = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const res = await axios.get('http://localhost:3000/api/v1/financecost/financialsummary', {
+                const res = await axios.get('https://neura-ops.onrender.com/api/v1/financecost/financialsummary', {
                     headers: { Authorization: "Bearer " + token }
                 });
                 setData(res.data);

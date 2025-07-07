@@ -84,14 +84,14 @@ export function OrderManagementPage() {
         async function fetchData() {
             try {
                 const [customerRes, productRes] = await Promise.all([
-                    axios.get("http://localhost:3000/api/v1/businessCustomer", 
+                    axios.get("https://neura-ops.onrender.com/api/v1/businessCustomer", 
                         {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     },
   }
                     ),
-                    axios.get("http://localhost:3000/api/v1/product", 
+                    axios.get("https://neura-ops.onrender.com/api/v1/product", 
                         {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -204,7 +204,7 @@ export function OrderManagementPage() {
                 };
             }
 
-            await axios.post("http://localhost:3000/api/v1/orders", validatedData, {
+            await axios.post("https://neura-ops.onrender.com/api/v1/orders", validatedData, {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     },
