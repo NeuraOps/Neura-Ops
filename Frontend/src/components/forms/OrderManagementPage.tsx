@@ -16,7 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Save, Building2, Package, Calendar, IndianRupee, Truck, CreditCard, AlertCircle, ArrowRight, Ban as Bank, Receipt, ChevronRight } from "lucide-react";
+import { ArrowLeft, Save, Building2, Package, IndianRupee, Truck, CreditCard, AlertCircle, ChevronRight, Ban as Bank } from "lucide-react";
 
 // Zod schema for order validation
 const orderSchema = z.object({
@@ -39,7 +39,12 @@ const orderSchema = z.object({
     }).optional()
 });
 
-type OrderFormData = z.infer<typeof orderSchema>;
+type OrderFormData = z.infer<typeof orderSchema> & {
+    quantityDelivered?: number;
+    remainingQuantity?: number;
+    orderDate?: string;
+    status?: string;
+};
 type ValidationErrors = { [key: string]: string[] };
 
 export function OrderManagementPage() {
@@ -66,7 +71,7 @@ export function OrderManagementPage() {
         },
         advancePayment: {
             amount: 0,
-            mode: "UPI", // default to one valid value
+            mode: "UPI",
             transactionId: ""
         }
     });
@@ -74,7 +79,6 @@ export function OrderManagementPage() {
     const [isDeliveryByUs, setIsDeliveryByUs] = useState<"Yes" | "No">("No");
     const [customers, setCustomers] = useState<any[]>([]);
     const [products, setProducts] = useState<any[]>([]);
-    const [showAdvancePayment, setShowAdvancePayment] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
@@ -109,20 +113,22 @@ export function OrderManagementPage() {
     }, [toast]);
 
     const validateField = (field: keyof OrderFormData, value: any) => {
-        try {
-            const schema = orderSchema.shape[field];
-            schema.parse(value);
-            setErrors(prev => {
-                const newErrors = { ...prev };
-                delete newErrors[field];
-                return newErrors;
-            });
-        } catch (error) {
-            if (error instanceof z.ZodError) {
-                setErrors(prev => ({
-                    ...prev,
-                    [field]: error.errors.map(e => e.message)
-                }));
+        if (field in orderSchema.shape) {
+            try {
+                const schema = orderSchema.shape[field as keyof typeof orderSchema.shape];
+                schema.parse(value);
+                setErrors(prev => {
+                    const newErrors = { ...prev };
+                    delete newErrors[field];
+                    return newErrors;
+                });
+            } catch (error) {
+                if (error instanceof z.ZodError) {
+                    setErrors(prev => ({
+                        ...prev,
+                        [field]: error.errors.map(e => e.message)
+                    }));
+                }
             }
         }
     };
@@ -148,22 +154,26 @@ export function OrderManagementPage() {
             paymentTerms: newPaymentTerms
         }));
         validateField('paymentTerms', newPaymentTerms);
-
-        if (field === 'advanceRequired') {
-            setShowAdvancePayment(value as boolean);
-        }
     };
 
-    const handleAdvancePaymentChange = (field: keyof NonNullable<OrderFormData['advancePayment']>, value: string) => {
-        const newAdvancePayment = {
-            ...formData.advancePayment,
-            [field]: field === 'amount' ? Number(value) : value
-        };
-        setFormData(prev => ({
-            ...prev,
-            advancePayment: newAdvancePayment
-        }));
-    };
+    const handleAdvancePaymentChange = (
+  field: keyof NonNullable<OrderFormData['advancePayment']>,
+  value: string
+) => {
+  setFormData(prev => ({
+    ...prev,
+    advancePayment: {
+      ...prev.advancePayment,
+      [field]: field === 'amount' ? Number(value) : value,
+      amount: field === 'amount'
+        ? Number(value)
+        : (typeof prev.advancePayment?.amount === 'number' ? prev.advancePayment.amount : 0),
+      mode: field === 'mode'
+        ? (value as "UPI" | "NEFT" | "RTGS" | "Cash" | "Cheque")
+        : (prev.advancePayment?.mode ?? "UPI")
+    }
+  }));
+};
 
     const calculateTotalValue = () => {
         return formData.quantityOrdered * formData.sellingPrice;
@@ -172,15 +182,25 @@ export function OrderManagementPage() {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         try {
-            const validatedData = orderSchema.parse(formData);
+            // Only send properties defined in the schema
+            const submitData = {
+                customerId: formData.customerId,
+                productId: formData.productId,
+                quantityOrdered: formData.quantityOrdered,
+                deliveryDate: formData.deliveryDate,
+                sellingPrice: formData.sellingPrice,
+                deliveryCost: formData.deliveryCost,
+                paymentTerms: formData.paymentTerms,
+                advancePayment: formData.advancePayment,
+            };
+            const validatedData = orderSchema.parse(submitData);
             
             if (formData.paymentTerms.advanceRequired && formData.paymentTerms.advancePercentage > 0) {
                 const totalValue = calculateTotalValue();
                 const advanceAmount = (totalValue * formData.paymentTerms.advancePercentage) / 100;
                 validatedData.advancePayment = {
                     ...formData.advancePayment!,
-                    amount: advanceAmount,
-                    date: new Date().toISOString()
+                    amount: advanceAmount
                 };
             }
 
@@ -403,7 +423,7 @@ export function OrderManagementPage() {
                             <CardContent className="space-y-6">
                                 <div className="flex items-center p-4 rounded-lg">
                                     <div className="flex items-center gap-2">
-                                        <Receipt className="h-5 w-5 text-primary" />
+                                        <Bank className="h-5 w-5 text-primary" />
                                         <Label>Advance Payment Received ?</Label>
                                     </div>
                                     <Switch
@@ -505,7 +525,7 @@ export function OrderManagementPage() {
                             <CardContent className="space-y-6">
                                 <div className="space-y-2">
                                     <Label>Is Delivery By Us?</Label>
-                                    <Select value={isDeliveryByUs} onValueChange={setIsDeliveryByUs}>
+                                    <Select value={isDeliveryByUs} onValueChange={(value: "Yes" | "No") => setIsDeliveryByUs(value)}>
                                         <SelectTrigger>
                                             <SelectValue placeholder="Select an option" />
                                         </SelectTrigger>

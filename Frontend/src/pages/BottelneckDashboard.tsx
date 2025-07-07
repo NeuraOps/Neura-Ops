@@ -8,6 +8,7 @@ import {
     Tooltip,
     ResponsiveContainer,
     LabelList,
+    Cell,
 } from "recharts";
 import {
     Card,
@@ -18,7 +19,7 @@ import {
 
 export default function BottleneckDashboard() {
     const [machineData, setMachineData] = useState([]);
-    const [jobData, setJobData] = useState([]);
+    const [jobData, setJobData] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [startDate, setStartDate] = useState(() => new Date());
     const [endDate, setEndDate] = useState(() => new Date());
@@ -193,12 +194,12 @@ const fetchAiInsight = async () => {
                                 <Tooltip />
                                 <Bar
                                     dataKey="avgTimePerUnit"
-                                    fill={(entry) =>
-                                        entry.avgTimePerUnit > 15 ? "#dc2626" : "#3b82f6"
-                                    }
                                     name="Avg Time/Unit"
                                     onClick={(entry) => setSelectedJob(entry)}
                                 >
+                                    {jobData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={entry.avgTimePerUnit > 15 ? "#dc2626" : "#3b82f6"} />
+                                    ))}
                                     <LabelList dataKey="avgTimePerUnit" position="top" />
                                 </Bar>
                                 <Bar dataKey="totalScrap" fill="#6366f1" name="Scrap" />

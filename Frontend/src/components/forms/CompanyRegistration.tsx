@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Building2, ArrowRight, ArrowLeft, Check, User, MapPin, FileText, Mail } from 'lucide-react';
+import { Building2, ArrowRight, ArrowLeft, Check, MapPin, FileText } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';

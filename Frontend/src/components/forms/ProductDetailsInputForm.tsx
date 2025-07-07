@@ -303,8 +303,6 @@ export function ProductDetailsInputForm() {
         }
     };
 
-    const uomOptions = ["Kg", "g", "L", "ml", "units", "pcs"];
-
     return (
         <div className="space-y-6 w-screen">
             <div className="flex items-center justify-between">

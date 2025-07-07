@@ -58,7 +58,7 @@ export default function ManualJobProductionForm() {
                     ),
                 ]);
     
-                const semiFinishedProducts: Product[] = semiFinishedRes.data.products.map((item) => ({
+                const semiFinishedProducts: Product[] = semiFinishedRes.data.products.map((item: any) => ({
                     _id: item._id,
                     productName: item.productName,
                     productType: 'SemiFinishedProduct',
@@ -66,7 +66,7 @@ export default function ManualJobProductionForm() {
                     uom: item.uom
                 }));
     
-                const finishedProducts: Product[] = productsRes.data.products.map((item) => ({
+                const finishedProducts: Product[] = productsRes.data.products.map((item: any) => ({
                     _id: item._id,
                     productName: item.productName,
                     productType: 'Product',

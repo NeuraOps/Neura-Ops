@@ -70,8 +70,6 @@ export function useProductFormValidation(formData: ProductForm) {
 
   const validateTab = (tabName: string): boolean => {
     try {
-      let tabErrors: Record<string, string> = {};
-      
       switch(tabName) {
         case 'productDetails':
           productDetailsSchema.parse(formData);

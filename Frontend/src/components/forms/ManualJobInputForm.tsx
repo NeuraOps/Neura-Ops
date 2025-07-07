@@ -10,32 +10,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
-import { 
     ArrowLeft, 
     Save,
     Package,
     Building2,
     Wrench,
-    Scale,
     DollarSign,
     AlertCircle,
     ClipboardList,
     Users,
     Shield,
-    Boxes,
     Timer,
     FileText,
     ArrowRight,
-    Plus,
-    X,
-    Loader2
+    X
 } from "lucide-react";
 
 const manualJobSchema = z.object({
@@ -56,7 +44,10 @@ const manualJobSchema = z.object({
     fixedCostPerDay: z.number().optional(),
 });
 
-type ManualJobForm = z.infer<typeof manualJobSchema>;
+type ManualJobForm = z.infer<typeof manualJobSchema> & {
+    requiresRawMaterials?: boolean;
+    rawMaterials?: { rawMaterialId: string; rawMaterialName: string }[];
+};
 type ValidationError = { [key: string]: string[] };
 
 interface RawMaterial {
@@ -130,7 +121,9 @@ export function ManualJobInputForm() {
         costType: "Fixed",
         costPerUnit: 0,
         hourlyCostRate: 0,
-        fixedCostPerDay: 0
+        fixedCostPerDay: 0,
+        requiresRawMaterials: false,
+        rawMaterials: []
     });
 
     useEffect(() => {
@@ -161,20 +154,22 @@ export function ManualJobInputForm() {
     }, [toast]);
 
     const validateField = (field: keyof ManualJobForm, value: any) => {
-        try {
-            const schema = manualJobSchema.shape[field];
-            schema.parse(value);
-            setErrors(prev => {
-                const newErrors = { ...prev };
-                delete newErrors[field];
-                return newErrors;
-            });
-        } catch (error) {
-            if (error instanceof z.ZodError) {
-                setErrors(prev => ({
-                    ...prev,
-                    [field]: error.errors.map(e => e.message)
-                }));
+        if (manualJobSchema.shape.hasOwnProperty(field)) {
+            try {
+                const schema = manualJobSchema.shape[field as keyof typeof manualJobSchema.shape];
+                schema.parse(value);
+                setErrors(prev => {
+                    const newErrors = { ...prev };
+                    delete newErrors[field];
+                    return newErrors;
+                });
+            } catch (error) {
+                if (error instanceof z.ZodError) {
+                    setErrors(prev => ({
+                        ...prev,
+                        [field]: error.errors.map(e => e.message)
+                    }));
+                }
             }
         }
     };
@@ -190,19 +185,17 @@ export function ManualJobInputForm() {
         setFormData(prev => ({ 
             ...prev,
             requiresRawMaterials: checked,
-            // Clear raw materials if unchecked
             rawMaterials: checked ? prev.rawMaterials : []
         }));
     };
 
     const addRawMaterial = (materialId: string) => {
-        const material = rawMaterials.find(m => m._id === materialId);
-        if (material && !formData.rawMaterials.some(rm => rm.rawMaterialId === materialId)) {
-            console.log("Adding raw material:", material);
+        const material = rawMaterials.find((m: RawMaterial) => m._id === materialId);
+        if (material && !formData.rawMaterials!.some((rm: {rawMaterialId: string}) => rm.rawMaterialId === materialId)) {
             setFormData(prev => ({
                 ...prev,
                 rawMaterials: [
-                    ...prev.rawMaterials,
+                    ...prev.rawMaterials!,
                     {
                         rawMaterialId: material._id,
                         rawMaterialName: material.rawMaterialName
@@ -215,7 +208,7 @@ export function ManualJobInputForm() {
     const removeRawMaterial = (materialId: string) => {
         setFormData(prev => ({
                 ...prev,
-            rawMaterials: prev.rawMaterials.filter(rm => rm.rawMaterialId !== materialId)
+            rawMaterials: prev.rawMaterials!.filter((rm: {rawMaterialId: string}) => rm.rawMaterialId !== materialId)
             }));
     };
 
@@ -450,8 +443,8 @@ export function ManualJobInputForm() {
                                 >
                                     <option value="" disabled>Add a raw material...</option>
                                     {rawMaterials
-                                        .filter(m => !formData.rawMaterials.some(rm => rm.rawMaterialId === m._id))
-                                        .map(material => (
+                                        .filter((m: RawMaterial) => !formData.rawMaterials!.some((rm: {rawMaterialId: string}) => rm.rawMaterialId === m._id))
+                                        .map((material: RawMaterial) => (
                                             <option key={material._id} value={material._id}>
                                                 {material.rawMaterialName} ({material.purchaseUOM})
                                             </option>
@@ -465,7 +458,7 @@ export function ManualJobInputForm() {
                             <div className="flex justify-center py-4">
                                 <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
                             </div>
-                        ) : formData.rawMaterials.length > 0 ? (
+                        ) : formData.rawMaterials!.length > 0 ? (
                             <div className="border rounded-md overflow-hidden">
                                 <table className="w-full">
                                     <thead className="bg-muted">
@@ -475,7 +468,7 @@ export function ManualJobInputForm() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {formData.rawMaterials.map(material => (
+                                        {formData.rawMaterials!.map((material: {rawMaterialId: string, rawMaterialName: string}) => (
                                             <tr key={material.rawMaterialId} className="border-t">
                                                 <td className="px-4 py-2">{material.rawMaterialName}</td>
                                                 <td className="px-4 py-2 text-right">

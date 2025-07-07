@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
     Accordion,
     AccordionContent,
@@ -30,8 +28,6 @@ export const productionFormSchema = z.object({
     scrapUnits: z.number().min(0, "Must be a positive number"),
     scrapReasons: z.array(z.string()).optional()
 });
-
-type ProductionFormValues = z.infer<typeof productionFormSchema>;
 
 interface ProductData {
     _id: string;
@@ -101,11 +97,14 @@ export function ProductProductionInputForm() {
                 const combined = [...finishedRes.data.products, ...semiRes.data.products];
                 const initialFormData: { [key: string]: FormData } = {};
                 combined.forEach((product: ProductData) => {
-                    initialFormData[product._id] = fieldMappings.reduce((acc, field) => ({
-                        ...acc,
-                        [field.key]: null
-                    }), { scrapReasons: [] });
-                    initialFormData[product._id].productId = product._id;
+                    initialFormData[product._id] = {
+                        totalUnitsProduced: null,
+                        goodUnitsProduced: null,
+                        goodUnitsWithoutRework: null,
+                        scrapUnits: null,
+                        scrapReasons: [],
+                        productId: product._id
+                    };
                 });
                 setFormData(initialFormData);
             } catch (error) {
@@ -130,6 +129,12 @@ export function ProductProductionInputForm() {
             }
         }));
     };
+
+    const getCleanNumberInputValue = (val: unknown): string | number => {
+        if (typeof val === 'number' || typeof val === 'string') return val;
+        return '';
+    };
+
 
     const handleScrapReasonChange = (productId: string, selectedReasons: string[]) => {
         setFormData((prev) => ({
@@ -301,12 +306,23 @@ export function ProductProductionInputForm() {
                                                     <Icon className="h-4 w-4" />
                                                     {label} ({product.uom})
                                                 </Label>
+                                                {/* <Input
+                                                    type="number"
+                                                    min="0"
+                                                    value={
+                                                        typeof formData[product._id]?.[key] === 'number' || typeof formData[product._id]?.[key] === 'string'
+                                                          ? formData[product._id]?.[key]
+                                                          : ''
+                                                      }                                                      
+                                                    onChange={(e) => handleInputChange(product._id, key, e.target.value)}
+                                                /> */}
                                                 <Input
                                                     type="number"
                                                     min="0"
-                                                    value={formData[product._id]?.[key] ?? ''}
+                                                    value={getCleanNumberInputValue(formData[product._id]?.[key])}
                                                     onChange={(e) => handleInputChange(product._id, key, e.target.value)}
                                                 />
+
                                             </div>
                                         ))}
                                     </div>
@@ -320,7 +336,7 @@ export function ProductProductionInputForm() {
                                         <ScrapReasonMultiSelect
                                             scrapReasons={scrapReasons}
                                             selectedReasons={formData[product._id]?.scrapReasons ?? []}
-                                            onSelectionChange={(selectedReasons) => 
+                                            onSelectionChange={(selectedReasons) =>
                                                 handleScrapReasonChange(product._id, selectedReasons)
                                             }
                                             onAddNewReason={handleAddNewScrapReason}
@@ -374,7 +390,7 @@ export function ProductProductionInputForm() {
                                                     type="number"
                                                     min="0"
                                                     placeholder="Enter actual usage"
-                                                    value={actualUsage[matId] || ''}
+                                                    value={actualUsage[matId] !== undefined ? actualUsage[matId] : ''}
                                                     onChange={(e) => handleActualUsageChange(matId, e.target.value)}
                                                 />
                                             </div>
@@ -400,7 +416,7 @@ export function ProductProductionInputForm() {
                                                         type="number"
                                                         min="0"
                                                         placeholder="Enter actual usage"
-                                                        value={actualSemiFinishedUsage[productId] || ''}
+                                                        value={actualSemiFinishedUsage[productId] !== undefined ? actualSemiFinishedUsage[productId] : ''}
                                                         onChange={(e) => handleActualSemiFinishedUsageChange(productId, e.target.value)}
                                                     />
                                                 </div>

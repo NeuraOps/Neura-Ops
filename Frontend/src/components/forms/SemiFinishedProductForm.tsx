@@ -30,8 +30,6 @@ import {
     Scale,
     MapPin,
     ClipboardCheck,
-    FileText,
-    AlertCircle,
     Plus,
     X,
     Boxes,

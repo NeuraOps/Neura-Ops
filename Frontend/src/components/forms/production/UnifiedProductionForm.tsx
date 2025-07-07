@@ -105,8 +105,6 @@ export function UnifiedProductionForm({ selectedDate: initialDate }: UnifiedProd
       // Pre-populate forms if data exists but not complete
       if (hasProduction && !isComplete) {
         // Transform existing production data to form format
-        const existingProduction = productionRes.data.productionsByDate[dateStr];
-        // TODO: Transform and set production form data
       }
 
     } catch (error) {

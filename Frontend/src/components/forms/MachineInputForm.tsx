@@ -171,7 +171,7 @@ export function MachineInputForm() {
 
     const calculateProgress = () => {
         const totalFields = Object.keys(machineSchema.shape).length;
-        const filledFields = Object.entries(formData).filter(([key, value]) => {
+        const filledFields = Object.entries(formData).filter(([, value]) => {
             if (value === null || value === '') return false;
             if (typeof value === 'string' && value.trim() === '') return false;
             return true;

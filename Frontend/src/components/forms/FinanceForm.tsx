@@ -244,27 +244,30 @@ export function FinanceForm() {
                                             </CardTitle>
                                         </CardHeader>
                                         <CardContent className="grid md:grid-cols-2 gap-6 p-6">
-                                            {fields.map(({ label, key, type, icon: Icon, placeholder }) => (
-                                                <div key={key} className="space-y-2">
-                                                    <Label className="flex items-center gap-2 text-muted-foreground">
-                                                        <Icon className="h-4 w-4 text-primary" />
-                                                        {label}
-                                                    </Label>
-                                                    <div className="relative">
-                                                        <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                        <Input
-                                                            type={type}
-                                                            placeholder={placeholder}
-                                                            value={formData[key] || ''}
-                                                            onChange={(e) => handleInputChange(e, key)}
-                                                            min="0"
-                                                            step="0.01"
-                                                            className={`pl-9 ${errors[key] ? 'border-destructive' : 'focus:border-primary'}`}
-                                                        />
+                                            {fields.map(({ label, key, type, icon, placeholder }: Field) => {
+                                                const Icon = icon as React.ElementType;
+                                                return (
+                                                    <div key={key} className="space-y-2">
+                                                        <Label className="flex items-center gap-2 text-muted-foreground">
+                                                            <Icon className="h-4 w-4 text-primary" />
+                                                            {label}
+                                                        </Label>
+                                                        <div className="relative">
+                                                            <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                            <Input
+                                                                type={type}
+                                                                placeholder={placeholder}
+                                                                value={formData[key] || ''}
+                                                                onChange={(e) => handleInputChange(e, key)}
+                                                                min="0"
+                                                                step="0.01"
+                                                                className={`pl-9 ${errors[key] ? 'border-destructive' : 'focus:border-primary'}`}
+                                                            />
+                                                        </div>
+                                                        {renderError(key)}
                                                     </div>
-                                                    {renderError(key)}
-                                                </div>
-                                            ))}
+                                                );
+                                            })}
                                         </CardContent>
                                         <CardFooter className="border-t border-border/50 p-6 flex justify-between">
                                             {tabKey === 'costExpenses' ? (

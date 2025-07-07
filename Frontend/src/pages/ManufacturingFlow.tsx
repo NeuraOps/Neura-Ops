@@ -193,7 +193,6 @@ interface ProcessStepProps {
 const ProcessStep: React.FC<ProcessStepProps> = ({
     step,
     isLastStep,
-    connections
 }) => {
     // Determine status based on machines or manual jobs
     const hasWarning = step.machines.some(m => m.includes('Warning')) ||

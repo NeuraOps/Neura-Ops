@@ -115,7 +115,7 @@ const fieldGroups = {
     ],
 };
 
-const tabIcons = {
+const tabIcons: { [key: string]: JSX.Element } = {
     materialDetails: <Package className="h-4 w-4" />,
     stockInformation: <Warehouse className="h-4 w-4" />,
     procurementDetails: <ShoppingCart className="h-4 w-4" />,
@@ -157,7 +157,7 @@ export function PackagingRawMaterialForm() {
         }
     });
 
-    const { formState: { errors } } = form;
+    const { formState: { errors } } = form as any;
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -300,7 +300,7 @@ export function PackagingRawMaterialForm() {
                                                         <div className="relative">
                                                             <Input
                                                                 type={type === 'boolean' ? 'checkbox' : type}
-                                                                {...form.register(key, {
+                                                                {...form.register(key as any, {
                                                                     setValueAs: (value) => {
                                                                         if (type === 'number') {
                                                                             return value === '' ? 0 : Number(value);
@@ -309,12 +309,12 @@ export function PackagingRawMaterialForm() {
                                                                     }
                                                                 })}
                                                                 className={`transition-all focus:ring-2 focus:ring-primary/20 ${
-                                                                    errors[key] ? 'border-destructive' : ''
+                                                                    (errors as any)[key] ? 'border-destructive' : ''
                                                                 }`}
                                                             />
-                                                            {errors[key] && (
+                                                            {(errors as any)[key] && (
                                                                 <span className="text-destructive text-sm mt-1 absolute -bottom-6 left-0">
-                                                                    {errors[key]?.message}
+                                                                    {(errors as any)[key]?.message}
                                                                 </span>
                                                             )}
                                                         </div>
