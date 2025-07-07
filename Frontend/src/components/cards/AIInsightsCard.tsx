@@ -20,7 +20,6 @@ import {
   DollarSign,
   Users,
   Wrench,
-  ShieldCheck,
   AlertCircle,
   Activity,
   PieChart,
@@ -28,345 +27,11 @@ import {
   Boxes,
   Truck
 } from 'lucide-react';
-import { useManufacturingData } from '@/hooks/useManufacturingData';
 import axios from 'axios';
-
-const predictiveInsights = [
-  {
-    title: 'Production Forecast',
-    icon: LineChart,
-    value: '+5.2%',
-    metric: 'Next 24 Hours',
-    progress: 85,
-    description: 'Expected to exceed target by 52 units',
-    color: 'emerald'
-  },
-  {
-    title: 'Maintenance Prediction',
-    icon: Wrench,
-    value: '87%',
-    metric: 'Machine Health',
-    progress: 87,
-    description: 'Maintenance recommended within 48 hours',
-    color: 'amber'
-  },
-  {
-    title: 'Quality Forecast',
-    icon: ShieldCheck,
-    value: '98.5%',
-    metric: 'Expected Quality Rate',
-    progress: 92,
-    description: 'Trending towards target quality levels',
-    color: 'emerald'
-  },
-  {
-    title: 'Resource Optimization',
-    icon: Gauge,
-    value: '+8.5%',
-    metric: 'Efficiency Potential',
-    progress: 65,
-    description: '3 optimization opportunities identified',
-    color: 'emerald'
-  }
-];
-
-const staticinsights = [
-  {
-    id: 'oee-optimization',
-    title: 'OEE Optimization',
-    type: 'performance',
-    severity: 'warning',
-    metrics: [
-      {
-        name: 'Current OEE',
-        value: '82.5%',
-        target: '85%',
-        status: 'below',
-        trend: '+2.3% vs last week'
-      },
-      {
-        name: 'Availability',
-        value: '92.5%',
-        target: '95%',
-        status: 'below',
-        trend: '-1.2% vs last week'
-      },
-      {
-        name: 'Performance',
-        value: '88.3%',
-        target: '90%',
-        status: 'below',
-        trend: '+3.5% vs last week'
-      }
-    ],
-    recommendations: [
-      'Implement predictive maintenance to reduce unplanned downtime',
-      'Optimize changeover procedures to improve availability',
-      'Review and adjust machine speeds for optimal performance',
-      'Schedule maintenance during non-peak hours',
-      'Implement real-time monitoring system for critical equipment'
-    ],
-    impact: {
-      financial: '+$45,000 monthly',
-      productivity: '+15% output',
-      timeframe: '3 months'
-    }
-  },
-  {
-    id: 'inventory-alerts',
-    title: 'Inventory Optimization',
-    type: 'warning',
-    severity: 'danger',
-    metrics: [
-      {
-        name: 'Stock Level',
-        value: '35%',
-        target: '40%',
-        status: 'below',
-        trend: '-5.2% vs last week'
-      },
-      {
-        name: 'Critical Materials',
-        value: '3',
-        target: '0',
-        status: 'below',
-        trend: '+2 vs last week'
-      },
-      {
-        name: 'Stockout Risk',
-        value: 'High',
-        target: 'Low',
-        status: 'below',
-        trend: 'Increasing'
-      }
-    ],
-    recommendations: [
-      'Place immediate orders for materials below reorder point',
-      'Review and adjust safety stock levels based on lead times',
-      'Implement vendor-managed inventory for critical materials',
-      'Establish secondary supplier relationships',
-      'Optimize order quantities using AI-driven demand forecasting'
-    ],
-    impact: {
-      financial: '-$32,000 holding cost',
-      efficiency: '+25% inventory turnover',
-      timeframe: '1 month'
-    }
-  },
-  {
-    id: 'cost-reduction',
-    title: 'Cost Optimization',
-    type: 'efficiency',
-    severity: 'warning',
-    metrics: [
-      {
-        name: 'Cost per Unit',
-        value: '$12.47',
-        target: '$10.00',
-        status: 'below',
-        trend: '-$0.42 vs last month'
-      },
-      {
-        name: 'Material Waste',
-        value: '4.2%',
-        target: '3.0%',
-        status: 'below',
-        trend: '-0.3% vs last month'
-      },
-      {
-        name: 'Labor Efficiency',
-        value: '82%',
-        target: '90%',
-        status: 'below',
-        trend: '+2% vs last month'
-      }
-    ],
-    recommendations: [
-      'Optimize material usage through better cutting patterns',
-      'Implement labor scheduling based on production demand',
-      'Review supplier contracts for potential cost savings',
-      'Automate repetitive processes to reduce labor costs',
-      'Implement energy efficiency measures'
-    ],
-    impact: {
-      financial: '-$28,000 monthly costs',
-      efficiency: '+12% resource utilization',
-      timeframe: '2 months'
-    }
-  },
-  {
-    id: 'quality-improvement',
-    title: 'Quality Enhancement',
-    type: 'quality',
-    severity: 'warning',
-    metrics: [
-      {
-        name: 'Quality Rate',
-        value: '97.2%',
-        target: '98%',
-        status: 'below',
-        trend: '+0.8% vs last month'
-      },
-      {
-        name: 'Defect Rate',
-        value: '2.8%',
-        target: '2%',
-        status: 'below',
-        trend: '-0.3% vs last month'
-      },
-      {
-        name: 'First Pass Yield',
-        value: '94%',
-        target: '96%',
-        status: 'below',
-        trend: '+1.2% vs last month'
-      }
-    ],
-    recommendations: [
-      'Implement additional quality checks at critical process points',
-      'Provide operator training on quality standards',
-      'Review and update quality control procedures',
-      'Install vision inspection systems',
-      'Implement statistical process control (SPC)'
-    ],
-    impact: {
-      financial: '-$35,000 scrap reduction',
-      quality: '+2.5% yield improvement',
-      timeframe: '2 months'
-    }
-  }
-];
 
 export function AIInsightsCard({ refreshKey }: { refreshKey: number }) {
   const [activeInsight, setActiveInsight] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState('realtime');
-
-  const supplyChainInsight = {
-    id: 'supply-chain',
-    title: 'Supply Chain Intelligence',
-    type: 'logistics',
-    severity: 'warning',
-    metrics: [
-      {
-        name: 'Supplier Performance',
-        value: '88%',
-        target: '95%',
-        status: 'below',
-        trend: '-2.5% vs last month'
-      },
-      {
-        name: 'Lead Time Variance',
-        value: '12.5%',
-        target: '5%',
-        status: 'below',
-        trend: '+3.2% vs last month'
-      },
-      {
-        name: 'Order Fulfillment',
-        value: '94.2%',
-        target: '98%',
-        status: 'below',
-        trend: '-1.8% vs last month'
-      }
-    ],
-    recommendations: [
-      'Implement real-time supplier performance tracking',
-      'Establish vendor scorecards and KPIs',
-      'Optimize order quantities based on lead time analysis',
-      'Develop contingency plans for critical materials',
-      'Implement automated supplier communication system'
-    ],
-    impact: {
-      financial: '-$65,000 logistics cost',
-      efficiency: '+15% delivery reliability',
-      timeframe: '4 months'
-    }
-  };
-
-  const energyInsight = {
-    id: 'energy-optimization',
-    title: 'Energy Intelligence',
-    type: 'energy',
-    severity: 'warning',
-    metrics: [
-      {
-        name: 'Energy Efficiency',
-        value: '82%',
-        target: '90%',
-        status: 'below',
-        trend: '+1.5% vs last month'
-      },
-      {
-        name: 'Peak Load',
-        value: '875 kW',
-        target: '800 kW',
-        status: 'below',
-        trend: '-25 kW vs last month'
-      },
-      {
-        name: 'Carbon Footprint',
-        value: '42 MT',
-        target: '35 MT',
-        status: 'below',
-        trend: '-2.3 MT vs last month'
-      }
-    ],
-    recommendations: [
-      'Implement smart energy monitoring system',
-      'Optimize equipment startup sequence',
-      'Schedule high-energy operations during off-peak hours',
-      'Upgrade to energy-efficient lighting systems',
-      'Install heat recovery systems'
-    ],
-    impact: {
-      financial: '-$28,000 energy cost',
-      sustainability: '-15% carbon emissions',
-      productivity: "None",
-      timeframe: '6 months'
-    }
-  };
-
-  const workforceInsight = {
-    id: 'workforce-optimization',
-    title: 'Workforce Intelligence',
-    type: 'workforce',
-    severity: 'success',
-    metrics: [
-      {
-        name: 'Labor Utilization',
-        value: '92%',
-        target: '90%',
-        status: 'above',
-        trend: '+3.5% vs last month'
-      },
-      {
-        name: 'Skill Coverage',
-        value: '85%',
-        target: '95%',
-        status: 'below',
-        trend: '+5% vs last month'
-      },
-      {
-        name: 'Training Compliance',
-        value: '96%',
-        target: '100%',
-        status: 'below',
-        trend: '+2% vs last month'
-      }
-    ],
-    recommendations: [
-      'Implement skill-based routing system',
-      'Develop cross-training program',
-      'Optimize shift patterns based on demand',
-      'Implement digital training modules',
-      'Deploy automated performance tracking'
-    ],
-    impact: {
-      financial: '+$42,000 productivity gains',
-      efficiency: '+18% workforce utilization',
-      timeframe: '3 months'
-    }
-  };
 
   const getInsightIcon = (type: string) => {
     switch (type) {
@@ -407,13 +72,10 @@ export function AIInsightsCard({ refreshKey }: { refreshKey: number }) {
   };
 
   const [insights, setInsights] = useState<{ [key: string]: any[] }>({});
-  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [showAll, setShowAll] = useState<boolean>(false);
 
   const fetchInsights = async () => {
     try {
-      setLoading(true);
       setError(null);
 
       const response = await axios.get(
@@ -438,19 +100,19 @@ export function AIInsightsCard({ refreshKey }: { refreshKey: number }) {
         } else if (err.response?.status === 404) {
           setError('AI insights service not found. Please contact support.');
         } else {
-          setError(err.response?.data?.message || 'Failed to fetch AI insights');
+          setError('Failed to fetch AI insights. Please try again later.');
         }
       } else {
-        setError('An unexpected error occurred');
+        setError('An unexpected error occurred. Please try again.');
       }
-    } finally {
-      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchInsights();
   }, [refreshKey]);
+
+  console.log(error)
 
 
   return (

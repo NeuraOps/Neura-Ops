@@ -56,7 +56,10 @@ interface SalesPipeline {
 interface Order {
     _id: string;
     customerId: string;
-    productId: string;
+    productId: {
+        _id: string;
+        productName: string;
+    };
     quantityOrdered: number;
     quantityDelivered: number;
     remainingQuantity: number;
