@@ -100,7 +100,6 @@ export function FormTabs({
   handleSemiFinishedProductChange,
   removeSemiFinishedProduct,
   errors,
-  workflowSteps
 }: FormTabsProps) {
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">

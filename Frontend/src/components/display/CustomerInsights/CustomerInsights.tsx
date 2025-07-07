@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import CustomerSummary from './CustomerSummary';
 import TopCustomers from './TopCustomers';
 import CustomerDetail from './CustomerDetail';
 import ChurnRetention from './ChurnRetention';
 
+interface Customer {
+    _id: string;
+    customerName: string;
+    totalOrders: number;
+    totalQuantity: number;
+}
+
 function CustomerInsights() {
-    const [selectedCustomer, setSelectedCustomer] = useState(null);
+    const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
 
     return (
         <div className="min-h-screen w-screen bg-background">

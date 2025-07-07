@@ -87,7 +87,7 @@ export function RawMaterialDashboard({ materials = [] }: { materials: RawMateria
             </div>
 
             <div className="grid grid-cols-1 gap-6">
-                {filteredMaterials.map((material, index) => (
+                {filteredMaterials.map((material: RawMaterial, index: number) => (
                     <motion.div
                         key={material._id}
                         initial={{ opacity: 0, y: 20 }}
@@ -110,8 +110,8 @@ export function RawMaterialDashboard({ materials = [] }: { materials: RawMateria
                                         <Badge
                                             className={cn(
                                                 "font-medium",
-                                                categoryBg[material.category],
-                                                categoryColors[material.category]
+                                                categoryBg[material.category as keyof typeof categoryBg],
+                                                categoryColors[material.category as keyof typeof categoryColors]
                                             )}
                                         >
                                             {material.category}

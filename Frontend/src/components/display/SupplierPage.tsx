@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { SupplierDashboard } from "../essentialsforPage/Supplier";
 
 export function SuppliersPage() {
-    const [suppliers, setSuppliers] = useState(null);
+    const [suppliers, setSuppliers] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string | null>(null);
 
     const token = localStorage.getItem('token');
 
@@ -22,7 +22,7 @@ export function SuppliersPage() {
                 const data = await response.json();
                 setSuppliers(data.suppliers);
             } catch (err) {
-                setError(err.message);
+                setError(err instanceof Error ? err.message : String(err));
             } finally {
                 setLoading(false);
             }

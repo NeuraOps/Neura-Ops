@@ -123,20 +123,20 @@ export function ProductDetailsInputForm() {
     const [rawMaterials, setRawMaterials] = useState<any[]>([]);
     const [machines, setMachines] = useState<any[]>([]);
     const [selectedMaterial, setSelectedMaterial] = useState<string>('');
-    const [materialQuantity, setMaterialQuantity] = useState<number>();
+    const [materialQuantity, setMaterialQuantity] = useState<number>(1);
 
     const [selectedMachine, setSelectedMachine] = useState<string>('');
     const [machineCycleTime, setMachineCycleTime] = useState<number>(0);
-    const [productsProducedInOneCycleTime, setProductsProducedInOneCycleTime] = useState<number>();
+    const [productsProducedInOneCycleTime, setProductsProducedInOneCycleTime] = useState<number>(1);
 
     const [manualJobs, setManualJobs] = useState<any[]>([]);
     const [selectedManualJob, setSelectedManualJob] = useState('');
     const [manualTimePerUnit, setManualTimePerUnit] = useState(0);
-    const [workflowSteps, setWorkflowSteps] = useState<any[]>([]);
+    // const [workflowSteps, setWorkflowSteps] = useState<any[]>([]);
 
     const [semiFinishedProducts, setSemiFinishedProducts] = useState<any[]>([]);
     const [selectedSemiFinishedProduct, setSelectedSemiFinishedProduct] = useState<string>('');
-    const [selectedSemiFinishedProductQuantity, setSelectedSemiFinishedProductQuantity] = useState<number>();
+    const [selectedSemiFinishedProductQuantity, setSelectedSemiFinishedProductQuantity] = useState<number>(1);
 
     // Custom costs state
     const [customCostLabel, setCustomCostLabel] = useState<string>('');
@@ -190,7 +190,7 @@ export function ProductDetailsInputForm() {
         if (!selectedMaterial) return;
         setFormData((prev) => ({
             ...prev,
-            rawMaterials: [...prev.rawMaterials, { rawMaterialId: selectedMaterial, quantity: materialQuantity }]
+            rawMaterials: [...prev.rawMaterials, { rawMaterialId: selectedMaterial, quantity: materialQuantity ?? 1 }]
         }));
         setSelectedMaterial('');
         setMaterialQuantity(1);
@@ -203,7 +203,7 @@ export function ProductDetailsInputForm() {
             machines: [...prev.machines, {
                 machineId: selectedMachine,
                 cycleTime: machineCycleTime,
-                productsProducedInOneCycleTime: productsProducedInOneCycleTime
+                productsProducedInOneCycleTime: productsProducedInOneCycleTime ?? 1
             }]
         }));
         setSelectedMachine('');
@@ -224,14 +224,14 @@ export function ProductDetailsInputForm() {
         setManualTimePerUnit(0);
     };
 
-    const handleAddToWorkflow = (type: 'machine' | 'manual', refId: string, stepName: string) => {
-        setWorkflowSteps(prev => [...prev, {
-            type,
-            refId,
-            stepName,
-            order: prev.length + 1
-        }]);
-    };
+    // const handleAddToWorkflow = (type: 'machine' | 'manual', refId: string, stepName: string) => {
+    //     setWorkflowSteps(prev => [...prev, {
+    //         type,
+    //         refId,
+    //         stepName,
+    //         order: prev.length + 1
+    //     }]);
+    // };
 
     const handleSemiFinishedProductChange = () => {
         if (!selectedSemiFinishedProduct) return;
@@ -239,7 +239,7 @@ export function ProductDetailsInputForm() {
             ...prev,
             semiFinishedComponents: [...(prev.semiFinishedComponents || []), {
                 productId: selectedSemiFinishedProduct,
-                quantity: selectedSemiFinishedProductQuantity
+                quantity: selectedSemiFinishedProductQuantity ?? 1
             }]
         }));
         setSelectedSemiFinishedProduct('');
@@ -289,7 +289,7 @@ export function ProductDetailsInputForm() {
         try {
             const fullForm = {
                 ...formData,
-                productionWorkflow: workflowSteps
+                // productionWorkflow: workflowSteps
             };
             await axios.post('http://localhost:3000/api/v1/product', fullForm, {
                 headers: {
@@ -335,34 +335,25 @@ export function ProductDetailsInputForm() {
                                     <CardTitle>{tabKey.replace(/([A-Z])/g, ' $1').trim()}</CardTitle>
                                 </CardHeader>
                                 <CardContent className="grid grid-cols-2 gap-4">
-                                    {fields.map(({ label, key, type }) => (
-                                        <div key={key}>
-                                            <Label>
-                                                {label}
-                                                {tabKey === "inventoryDetails" && key !== "leadTime" && formData.uom && (
-                                                    <span className="text-muted-foreground"> ({formData.uom})</span>
-                                                )}
-                                            </Label>
-                                            {key === "uom" ? (
-                                                <select
-                                                    className="w-full rounded px-2 py-1 border border-input bg-background"
-                                                    value={formData.uom}
-                                                    onChange={(e) => setFormData(prev => ({ ...prev, uom: e.target.value }))}
-                                                >
-                                                    <option value="">Select UOM</option>
-                                                    {uomOptions.map((option) => (
-                                                        <option key={option} value={option}>{option}</option>
-                                                    ))}
-                                                </select>
-                                            ) : (
-                                                <Input 
-                                                    type={type} 
-                                                    value={formData[key]} 
-                                                    onChange={(e) => handleInputChange(e, key)} 
+                                    {fields.map(({ label, key, type }) => {
+                                        const fieldValue = formData[key as keyof ProductForm];
+                                        if (typeof fieldValue !== "string" && typeof fieldValue !== "number") return null;
+                                        return (
+                                            <div key={key}>
+                                                <Label>
+                                                    {label}
+                                                    {tabKey === "inventoryDetails" && key !== "leadTime" && formData.uom && (
+                                                        <span className="text-muted-foreground"> ({formData.uom})</span>
+                                                    )}
+                                                </Label>
+                                                <Input
+                                                    type={type}
+                                                    value={fieldValue}
+                                                    onChange={(e) => handleInputChange(e, key as keyof ProductForm)}
                                                 />
-                                            )}
-                                        </div>
-                                    ))}
+                                            </div>
+                                        );
+                                    })}
                                 </CardContent>
                             </Card>
                         </TabsContent>

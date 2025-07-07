@@ -60,7 +60,7 @@ const isTimeField = (key: string): boolean => {
 
 export function ProductionFormSection({ selectedDate, isCompleted, onDataChange }: ProductionFormSectionProps) {
     const [machines, setMachines] = useState<MachineData[]>([]);
-    const [formData, setFormData] = useState<{ [key: number]: any }>({});
+    const [formData, setFormData] = useState<{ [key: string]: any }>({});
     const [expandedMachine, setExpandedMachine] = useState<number | null>(null);
     const [loading, setLoading] = useState(false);
     const { toast } = useToast();
@@ -76,7 +76,7 @@ export function ProductionFormSection({ selectedDate, isCompleted, onDataChange 
             });
 
             setMachines(response.data.machines);
-            const initialFormData: { [key: number]: any } = {};
+            const initialFormData: { [key: string]: any } = {};
 
             response.data.machines.forEach((machine: MachineData) => {
                 const machineKey = String(machine.machineId); // ensure it's a string

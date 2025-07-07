@@ -23,14 +23,10 @@ import {
     DollarSign,
     Timer,
     Users,
-    AlertCircle,
     Settings,
-    Loader2,
-    Building2,
     ClipboardList,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface ManualJob {
@@ -106,7 +102,7 @@ export function ManualJobDashboard({ manualJobs = [] }: ManualJobDashboardProps)
             </div>
 
             <AnimatePresence>
-                {filteredJobs.map((job, index) => (
+                {filteredJobs.map((job: ManualJob, index: number) => (
                     <motion.div
                         key={job._id}
                         initial={{ opacity: 0, y: 20 }}
@@ -124,7 +120,7 @@ export function ManualJobDashboard({ manualJobs = [] }: ManualJobDashboardProps)
                                         <div>
                                             <CardTitle className="text-xl">{job.jobName}</CardTitle>
                                             <CardDescription className="flex items-center gap-2 mt-1">
-                                                <Building2 className="h-4 w-4" />
+                                                {/* Building2 className="h-4 w-4" */}
                                                 {job.department}
                                             </CardDescription>
                                         </div>

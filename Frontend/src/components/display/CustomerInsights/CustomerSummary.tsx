@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Users, DollarSign, Package } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -17,10 +17,10 @@ function CustomerSummary() {
         const fetchSummaryData = async () => {
             try {
                 const response = await fetch('http://localhost:3000/api/v1/orders/customer-insights', {
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-  });
+                    headers: {
+                        Authorization: 'Bearer ' + token,
+                    },
+                });
                 const data = await response.json();
                 setSummaryData(data);
             } catch (error) {

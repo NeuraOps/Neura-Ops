@@ -30,10 +30,23 @@ const paymentTermsBg = {
     "COD": "bg-orange-500/10",
 };
 
-export function SupplierDashboard({ suppliers = [] }) {
+interface Supplier {
+    _id: string;
+    supplierName: string;
+    email: string;
+    gstNumber: string;
+    paymentTerms: string;
+    phoneNumber: string;
+    address: string;
+    materialsSupplied: string[];
+    contactPerson: string;
+    createdAt: string;
+}
+
+export function SupplierDashboard({ suppliers = [] }: { suppliers?: Supplier[] }) {
     const [searchTerm, setSearchTerm] = useState("");
 
-    const filteredSuppliers = suppliers.filter((supplier) =>
+    const filteredSuppliers = suppliers.filter((supplier: Supplier) =>
         supplier.supplierName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         supplier.email?.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -64,7 +77,7 @@ export function SupplierDashboard({ suppliers = [] }) {
             </div>
 
             <div className="grid grid-cols-1 gap-6">
-                {filteredSuppliers.map((supplier, index) => (
+                {filteredSuppliers.map((supplier: Supplier, index: number) => (
                     <motion.div
                         key={supplier._id}
                         initial={{ opacity: 0, y: 20 }}
@@ -91,8 +104,8 @@ export function SupplierDashboard({ suppliers = [] }) {
                                     <Badge
                                         className={cn(
                                             "font-medium",
-                                            paymentTermsBg[supplier.paymentTerms],
-                                            paymentTermsColor[supplier.paymentTerms]
+                                            paymentTermsBg[supplier.paymentTerms as keyof typeof paymentTermsBg],
+                                            paymentTermsColor[supplier.paymentTerms as keyof typeof paymentTermsColor]
                                         )}
                                     >
                                         {supplier.paymentTerms}
@@ -135,7 +148,7 @@ export function SupplierDashboard({ suppliers = [] }) {
                                             </TableHeader>
                                             <TableBody>
                                                 {supplier.materialsSupplied?.length > 0 ? (
-                                                    supplier.materialsSupplied.map((material, index) => (
+                                                    supplier.materialsSupplied.map((material: string, index: number) => (
                                                         <TableRow key={index}>
                                                             <TableCell className="font-medium">
                                                                 {material}

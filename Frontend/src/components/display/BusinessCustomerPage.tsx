@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { BusinessCustomerDashboard } from "../essentialsforPage/BusinessCustomer";
+import type { Customer } from "@/types";
 
 export function BusinessCustomersPage() {
-    const [customers, setCustomers] = useState(null);
+    const [customers, setCustomers] = useState<Customer[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string | null>(null);
 
     const token = localStorage.getItem('token');
 
@@ -12,17 +13,17 @@ export function BusinessCustomersPage() {
         const fetchCustomers = async () => {
             try {
                 const response = await fetch("http://localhost:3000/api/v1/businessCustomer", {
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-  });
+                    headers: {
+                        Authorization: 'Bearer ' + token,
+                    },
+                });
                 if (!response.ok) {
                     throw new Error("Failed to fetch customers");
                 }
                 const data = await response.json();
                 setCustomers(data.customers);
             } catch (err) {
-                setError(err.message);
+                setError(err instanceof Error ? err.message : String(err));
             } finally {
                 setLoading(false);
             }

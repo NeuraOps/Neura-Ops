@@ -2,8 +2,54 @@ import { useEffect, useState } from "react";
 // import { getProducts } from "../api/ProductAPI";
 import { ProductDashboard } from "../essentialsforPage/Product"; // your dashboard component for products
 
+
+
+interface Product {
+    _id: string;
+    productId: string;
+    productName: string;
+    productCategory: string;
+    productSKU: string;
+    uom: string;
+    productVariant: string;
+    sellingPrice: number;
+    batchSize: number;
+    productWeight: number;
+    totalMaterialCost: number;
+    laborCost: number;
+    machineCost: number;
+    overheadCost: number;
+    totalProductionCost: number;
+    profitMargin: number;
+    finalSellingPrice: number;
+    currentStock: number;
+    minimumStockLevel: number;
+    reorderPoint: number;
+    leadTime: number;
+    qualityCheckRequired: boolean;
+    inspectionCriteria: string;
+    defectTolerance: number;
+    rawMaterials: Array<{
+        rawMaterialId: string;
+        quantity: number;
+    }>;
+    semiFinishedComponents: Array<{
+        productId: string;
+        quantity: number;
+    }>;
+    machines: Array<{
+        machineId: string;
+        cycleTime: number;
+    }>;
+    manualJobs: Array<{
+        jobId: string;
+        expectedTimePerUnit: number;
+    }>;
+}
+
+
 export function ProductsPage() {
-    const [products, setProducts] = useState(null);
+    const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 

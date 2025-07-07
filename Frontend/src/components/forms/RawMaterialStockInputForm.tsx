@@ -127,8 +127,8 @@ export function RawMaterialStockInputForm() {
         setFormData((prev) => {
             let newTotalCost = prev.totalCost;
             if (key === "quantityReceived" || key === "pricePerUnit") {
-                const quantity = key === "quantityReceived" ? updatedValue : prev.quantityReceived;
-                const price = key === "pricePerUnit" ? updatedValue : prev.pricePerUnit;
+                const quantity = key === "quantityReceived" ? Number(updatedValue) : Number(prev.quantityReceived);
+                const price = key === "pricePerUnit" ? Number(updatedValue) : Number(prev.pricePerUnit);
                 newTotalCost = quantity * price;
             }
             const newData = { ...prev, [key]: updatedValue, totalCost: newTotalCost };

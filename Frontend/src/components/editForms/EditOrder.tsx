@@ -1,11 +1,10 @@
-import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
 import { z } from "zod";
 import {
     Card,
     CardContent,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
@@ -27,12 +26,8 @@ import {
     Save,
     Building2,
     Package,
-    Calendar,
-    IndianRupee,
     Truck,
     CreditCard,
-    AlertCircle,
-    ChevronRight,
     Ban,
 } from "lucide-react";
 

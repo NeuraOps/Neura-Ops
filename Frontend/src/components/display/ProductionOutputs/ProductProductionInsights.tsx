@@ -8,11 +8,8 @@ import {
     Package,
     AlertTriangle,
     CheckCircle2,
-    XCircle,
     RefreshCcw,
     Boxes,
-    CircleDollarSign,
-    Scale,
     PackageCheck
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -87,8 +84,7 @@ export default function ProductProductionInsights() {
                 setData(response.data);
                 setError(null);
             } catch (err) {
-                setError('Failed to fetch production insights');
-                console.error('Error:', err);
+                setError(err instanceof Error ? err.message : String(err));
             } finally {
                 setLoading(false);
             }
@@ -139,7 +135,6 @@ export default function ProductProductionInsights() {
     const ProductCard = ({ insight }: { insight: ProductInsight }) => {
         const yieldValue = parseFloat(insight.yieldPercentage);
         const reworkValue = parseFloat(insight.reworkRatio);
-        const productionCost = parseFloat(insight.productionCost);
 
         return (
             <Card className="overflow-hidden">
@@ -183,11 +178,11 @@ export default function ProductProductionInsights() {
                                 </div>
                                 <Progress
                                     value={yieldValue}
-                                    className="h-2"
-                                    indicatorClassName={cn(
+                                    className={cn(
+                                        "h-2",
                                         yieldValue >= 98 ? 'bg-green-500' :
-                                            yieldValue >= 95 ? 'bg-amber-500' :
-                                                'bg-red-500'
+                                        yieldValue >= 95 ? 'bg-amber-500' :
+                                        'bg-red-500'
                                     )}
                                 />
                             </div>
@@ -201,11 +196,11 @@ export default function ProductProductionInsights() {
                                 </div>
                                 <Progress
                                     value={reworkValue}
-                                    className="h-2"
-                                    indicatorClassName={cn(
+                                    className={cn(
+                                        "h-2",
                                         reworkValue <= 2 ? 'bg-green-500' :
-                                            reworkValue <= 5 ? 'bg-amber-500' :
-                                                'bg-red-500'
+                                        reworkValue <= 5 ? 'bg-amber-500' :
+                                        'bg-red-500'
                                     )}
                                 />
                             </div>

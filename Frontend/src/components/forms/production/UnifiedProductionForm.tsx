@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -16,11 +16,8 @@ import {
   RefreshCw,
   Settings,
   Sparkles,
-  Calendar,
-  ChevronLeft,
   Clock,
   CheckCircle2,
-  AlertTriangle,
   History,
   Lock
 } from 'lucide-react';
@@ -55,6 +52,10 @@ export function UnifiedProductionForm({ selectedDate: initialDate }: UnifiedProd
       fetchExistingData(selectedDate);
     }
   }, [selectedDate]);
+
+  if(formData){
+    console.log(formData);
+  }
 
   const fetchExistingData = async (date: Date) => {
     setLoading(true);

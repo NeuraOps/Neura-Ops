@@ -60,7 +60,7 @@ const Card = styled.div`
   text-align: center;
 `;
 
-const IconWrapper = styled.div<{ status?: 'pending' | 'success' | 'error' }>`
+const IconWrapper = styled.div<{ status?: 'pending' | 'success' | 'error' | 'verifying' }>`
   width: 80px;
   height: 80px;
   border-radius: 50%;

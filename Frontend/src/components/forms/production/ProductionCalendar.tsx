@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Calendar } from '@/components/ui/calendar';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Badge } from '@/components/ui/badge';
-import { CalendarIcon, CheckCircle2, AlertCircle, Clock } from 'lucide-react';
-import { format, isToday, parseISO, startOfDay } from 'date-fns';
+import { CalendarIcon, Clock } from 'lucide-react';
+import { format, isToday } from 'date-fns';
 import axios from 'axios';
 import { cn } from '@/lib/utils';
 
@@ -29,6 +29,10 @@ export function ProductionCalendar({ selectedDate, onDateSelect, onTodayClick }:
   useEffect(() => {
     fetchDateStatuses();
   }, []);
+
+  if(loading) {
+    return <div>Loading...</div>;
+  }
 
   const fetchDateStatuses = async () => {
     setLoading(true);
@@ -85,38 +89,38 @@ export function ProductionCalendar({ selectedDate, onDateSelect, onTodayClick }:
     };
   };
 
-  const getDayClassName = (date: Date) => {
-    const status = getDateStatus(date);
-    const baseClass = "relative";
+  // const getDayClassName = (date: Date) => {
+  //   const status = getDateStatus(date);
+  //   const baseClass = "relative";
     
-    if (status.isComplete) {
-      return cn(baseClass, "bg-green-100 text-green-800 hover:bg-green-200");
-    } else if (status.hasProduction || status.hasProductProduction || status.hasManualJob) {
-      return cn(baseClass, "bg-yellow-100 text-yellow-800 hover:bg-yellow-200");
-    } else {
-      return cn(baseClass, "bg-red-50 text-red-600 hover:bg-red-100");
-    }
-  };
+  //   if (status.isComplete) {
+  //     return cn(baseClass, "bg-green-100 text-green-800 hover:bg-green-200");
+  //   } else if (status.hasProduction || status.hasProductProduction || status.hasManualJob) {
+  //     return cn(baseClass, "bg-yellow-100 text-yellow-800 hover:bg-yellow-200");
+  //   } else {
+  //     return cn(baseClass, "bg-red-50 text-red-600 hover:bg-red-100");
+  //   }
+  // };
 
-  const renderDayContent = (date: Date) => {
-    const status = getDateStatus(date);
-    const dayNumber = format(date, 'd');
+  // const renderDayContent = (date: Date) => {
+  //   const status = getDateStatus(date);
+  //   const dayNumber = format(date, 'd');
     
-    return (
-      <div className="relative w-full h-full flex items-center justify-center">
-        <span>{dayNumber}</span>
-        {(status.hasProduction || status.hasProductProduction || status.hasManualJob) && (
-          <div className="absolute bottom-0 right-0 flex gap-0.5">
-            {status.isComplete ? (
-              <CheckCircle2 className="h-2 w-2 text-green-600" />
-            ) : (
-              <AlertCircle className="h-2 w-2 text-yellow-600" />
-            )}
-          </div>
-        )}
-      </div>
-    );
-  };
+  //   return (
+  //     <div className="relative w-full h-full flex items-center justify-center">
+  //       <span>{dayNumber}</span>
+  //       {(status.hasProduction || status.hasProductProduction || status.hasManualJob) && (
+  //         <div className="absolute bottom-0 right-0 flex gap-0.5">
+  //           {status.isComplete ? (
+  //             <CheckCircle2 className="h-2 w-2 text-green-600" />
+  //           ) : (
+  //             <AlertCircle className="h-2 w-2 text-yellow-600" />
+  //           )}
+  //         </div>
+  //       )}
+  //     </div>
+  //   );
+  // };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import {
   AlertCircle,
-  CheckCircle2,
   Clock,
   Package,
-  Truck,
   User,
   Phone,
   Mail,
@@ -47,8 +45,6 @@ function OrderDetail() {
 
   const isDelayed = new Date(order.deliveryDate) < new Date();
   const progressPercentage = (order.quantityDelivered / order.quantityOrdered) * 100;
-  const totalValue = order.sellingPrice * order.quantityOrdered;
-  const remainingValue = order.sellingPrice * order.remainingQuantity;
 
 
 
@@ -338,9 +334,7 @@ function OrderDetail() {
         3: { cellWidth: 40, halign: 'center' }
       }
     });
-
-    // Update currentY after table
-    currentY = doc.lastAutoTable.finalY + 15;
+    currentY = (doc as any).lastAutoTable?.finalY ? (doc as any).lastAutoTable.finalY + 15 : currentY + 30;
 
     // Summary section (right aligned)
     const summaryX = pageWidth - 90;
@@ -529,15 +523,15 @@ function OrderDetail() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-blue-50 p-4 rounded-lg">
             <p className="text-sm text-gray-500">Total Order Value</p>
-            <p className="text-2xl font-bold text-blue-600">₹{order.totalOrderValue.toLocaleString()}</p>
+            <p className="text-2xl font-bold text-blue-600">₹{order.totalOrderValue?.toLocaleString() ?? '0'}</p>
           </div>
           <div className="bg-green-50 p-4 rounded-lg">
             <p className="text-sm text-gray-500">Total Paid</p>
-            <p className="text-2xl font-bold text-green-600">₹{order.totalPaidAmount.toLocaleString()}</p>
+            <p className="text-2xl font-bold text-green-600">₹{order.totalPaidAmount?.toLocaleString() ?? '0'}</p>
           </div>
           <div className="bg-orange-50 p-4 rounded-lg">
             <p className="text-sm text-gray-500">Pending Amount</p>
-            <p className="text-2xl font-bold text-orange-600">₹{order.pendingAmount.toLocaleString()}</p>
+            <p className="text-2xl font-bold text-orange-600">₹{order.pendingAmount?.toLocaleString() ?? '0'}</p>
           </div>
           <div className="p-4 rounded-lg">
             <p className="text-sm text-gray-500">Delivery Cost</p>
@@ -547,7 +541,7 @@ function OrderDetail() {
       </div>
 
       {/* Payment History */}
-      {(order.advancePayment || order.payments.length > 0) && (
+      {(order.advancePayment || (order.payments && order.payments.length > 0)) && (
         <div className="  p-6 rounded-xl shadow-sm border border-gray-200">
           <h2 className="text-xl font-semibold mb-4 text-white-900">Payment History</h2>
           <div className="space-y-3">
@@ -565,7 +559,7 @@ function OrderDetail() {
                 <p className="text-lg font-bold text-green-600">₹{order.advancePayment.amount.toLocaleString()}</p>
               </div>
             )}
-            {order.payments.map((payment, index) => (
+            {order.payments?.map((payment: import('../../types').Payment, index: number) => (
               <div key={payment._id} className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                 <div>
                   <p className="font-medium text-gray-900">Payment {index + 1}</p>

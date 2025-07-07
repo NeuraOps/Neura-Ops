@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
-import { AlertCircle, CheckCircle, Clock, DollarSign, Package, Truck } from 'lucide-react';
+import { AlertCircle, CheckCircle, Clock, DollarSign, Package } from 'lucide-react';
 import { getInProgressOrders, getOrderStatusMetrics } from '../../api/index';
 import { Order } from '../../types/index';
 import { Card } from '../ui/card';
@@ -41,7 +41,6 @@ function OrdersInProgress() {
   if (loading) return <div className="flex items-center justify-center h-screen">Loading...</div>;
   if (error) return <div className="text-red-500 text-center p-4">{error}</div>;
 
-  const totalPendingQuantity = orders.reduce((acc, order) => acc + order.remainingQuantity, 0);
   const totalPendingValue = orders.reduce((acc, order) => acc + (order.remainingQuantity * order.sellingPrice), 0);
 
   return (

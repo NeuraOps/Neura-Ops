@@ -20,19 +20,13 @@ import { useToast } from "@/hooks/use-toast";
 import { 
     Loader2, 
     Package2, 
-    Users, 
-    TrendingUp,
     IndianRupee,
-    AlertCircle,
-    CreditCard,
-    FileText
+    CreditCard
 } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Label } from '@/components/ui/label';
 
 interface Order {
     _id: string;

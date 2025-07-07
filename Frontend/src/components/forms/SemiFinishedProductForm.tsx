@@ -4,7 +4,7 @@ import axios from 'axios';
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -36,7 +36,8 @@ import {
     X,
     Boxes,
     Wrench,
-    Users
+    Users,
+    Loader2
 } from "lucide-react";
 import {
     Form,
@@ -305,8 +306,15 @@ export function SemiFinishedProductForm() {
         }
     };
 
+    console.log(errors);
+    if(loading){
+        return <div className="flex items-center justify-center h-screen">
+            <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
+    }
+
     const addRawMaterial = () => {
-        if (!selectedRawMaterial || selectedRawMaterialQuantity <= 0) {
+        if (!selectedRawMaterial || (selectedRawMaterialQuantity ?? 0) <= 0) {
             toast({
                 title: "Error",
                 description: "Please select a raw material and specify a quantity.",
@@ -335,7 +343,7 @@ export function SemiFinishedProductForm() {
             {
                 rawMaterialId: material.rawMaterialCode,
                 rawMaterialName: material.rawMaterialName,
-                quantity: selectedRawMaterialQuantity
+                quantity: (selectedRawMaterialQuantity ?? 0)
             }
         ]);
 
@@ -352,7 +360,7 @@ export function SemiFinishedProductForm() {
     };
 
     const addSemiFinishedProduct = () => {
-        if (!selectedSemiFinishedProduct || selectedSemiFinishedProductQuantity <= 0) {
+        if (!selectedSemiFinishedProduct || (selectedSemiFinishedProductQuantity ?? 0) <= 0) {
             toast({
                 title: "Error",
                 description: "Please select a semi-finished product and specify a quantity.",
@@ -381,7 +389,7 @@ export function SemiFinishedProductForm() {
             {
                 productId: selectedSemiFinishedProduct,
                 productName: product.productName,
-                quantity: selectedSemiFinishedProductQuantity
+                quantity: (selectedSemiFinishedProductQuantity ?? 0)
             }
         ]);
 
@@ -420,8 +428,8 @@ export function SemiFinishedProductForm() {
             {
                 machineId: selectedMachine,
                 machineName: machine.machineName,
-                cycleTime: selectedMachineCycleTime,
-                productsProducedInOneCycleTime: selectedMachineProductsPerCycle
+                cycleTime: (selectedMachineCycleTime ?? 0),
+                productsProducedInOneCycleTime: (selectedMachineProductsPerCycle ?? 1)
             }
         ]);
 
@@ -439,7 +447,7 @@ export function SemiFinishedProductForm() {
     };
 
     const addManualJob = () => {
-        if (!selectedManualJob || selectedManualJobTime <= 0) {
+        if (!selectedManualJob || (selectedManualJobTime ?? 0) <= 0) {
             toast({
                 title: "Error",
                 description: "Please select a manual job and specify an expected time.",
@@ -468,7 +476,7 @@ export function SemiFinishedProductForm() {
             {
                 jobId: selectedManualJob,
                 jobName: job.jobName,
-                expectedTimePerUnit: selectedManualJobTime
+                expectedTimePerUnit: (selectedManualJobTime ?? 0)
             }
         ]);
 

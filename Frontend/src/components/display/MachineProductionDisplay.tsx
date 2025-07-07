@@ -154,12 +154,12 @@ export function MachineProductionDisplay() {
         return Math.round((availability * performance * quality) / 10000);
     };
 
-    const getMachineTypeIcon = (machineId: string) => {
-        if (machineId.startsWith('INJ')) return <Zap className="h-4 w-4" />;
-        if (machineId.startsWith('BLW')) return <Activity className="h-4 w-4" />;
-        if (machineId.startsWith('EXT')) return <TrendingUp className="h-4 w-4" />;
-        return <Settings className="h-4 w-4" />;
-    };
+    // const getMachineTypeIcon = (machineId: string) => {
+    //     if (machineId.startsWith('INJ')) return <Zap className="h-4 w-4" />;
+    //     if (machineId.startsWith('BLW')) return <Activity className="h-4 w-4" />;
+    //     if (machineId.startsWith('EXT')) return <TrendingUp className="h-4 w-4" />;
+    //     return <Settings className="h-4 w-4" />;
+    // };
 
     const getMachineTypeBadge = (machineId: string) => {
         if (machineId.startsWith('INJ')) {

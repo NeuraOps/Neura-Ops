@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { X, Plus, Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import { X, Plus } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
@@ -108,7 +108,7 @@ export function ScrapReasonMultiSelect({
                 {/* Selected Reasons Display */}
                 {selectedReasons.length > 0 && (
                     <div className="flex flex-wrap gap-2">
-                        {getSelectedReasonNames().map((reasonName, index) => {
+                        {getSelectedReasonNames().map((reasonName) => {
                             const reasonId = scrapReasons.find(r => r.reason === reasonName)?._id;
                             return (
                                 <Badge key={reasonId} variant="secondary" className="flex items-center gap-1">

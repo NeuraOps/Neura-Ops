@@ -6,7 +6,6 @@ import {
   Card,
   CardHeader,
   CardContent,
-  CardDescription,
 } from '@/components/ui/card';
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -27,21 +26,7 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { format } from 'date-fns';
 import { Button } from '../ui/button';
-
-
-
-interface Order {
-  _id: string;
-  productId: { _id: string; productName: string } | null;
-  customerId: { _id: string; customerName: string } | null;
-  quantityOrdered: number;
-  quantityDelivered: number;
-  deliveryDate: string;
-  orderCompletionDate?: string; // 👈 add this
-  status: 'In Progress' | 'Completed';
-  orderDate: string;
-  __v: number;
-}
+import type { Order as OrderType, Customer, Product } from '@/types/index';
 
 
 interface StatCard {
@@ -56,7 +41,7 @@ interface StatCard {
 }
 
 const CompletedOrdersPage = () => {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<OrderType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { toast } = useToast();
 
@@ -97,7 +82,14 @@ const CompletedOrdersPage = () => {
     },
   }
       );
-      setOrders(response.data.orders);
+      // Defensive mapping to ensure correct types
+      setOrders(
+        response.data.orders.map((order: any) => ({
+          ...order,
+          customerId: order.customerId ? order.customerId : undefined,
+          productId: order.productId ? order.productId : undefined,
+        }))
+      );
     } catch (error) {
       console.error('Error fetching completed orders:', error);
       toast({ description: 'Failed to fetch completed orders.', variant: 'destructive' });
@@ -111,9 +103,10 @@ const CompletedOrdersPage = () => {
   }, []);
 
 
-  const handlePrintInvoice = (order: Order) => {
+  const handlePrintInvoice = (order: OrderType) => {
     if (!order || !order.customerId || !order.productId) return;
-
+    const customer = order.customerId as Customer;
+    const product = order.productId as Product;
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.width;
     const pageHeight = doc.internal.pageSize.height;
@@ -145,34 +138,34 @@ const CompletedOrdersPage = () => {
     doc.text(format(new Date(order.orderDate), 'dd/MM/yyyy'), detailsX + 30, currentY);
 
     currentY += 8;
-    doc.text(order.customerId.customerName, 20, currentY);
+    doc.text(customer.customerName, 20, currentY);
     doc.text('Due date:', detailsX, currentY);
     doc.text(format(new Date(order.deliveryDate), 'dd/MM/yyyy'), detailsX + 30, currentY);
 
     currentY += 6;
-    doc.text(order.customerId.companyAddress || '', 20, currentY);
+    doc.text(customer.companyAddress || '', 20, currentY);
     currentY += 6;
-    doc.text(`Phone: ${order.customerId.phoneNumber}`, 20, currentY);
+    doc.text(`Phone: ${customer.phoneNumber || ''}`, 20, currentY);
     currentY += 6;
-    doc.text(`Email: ${order.customerId.email}`, 20, currentY);
+    doc.text(`Email: ${customer.email || ''}`, 20, currentY);
     currentY += 6;
-    if (order.customerId.gstNumber) {
-      doc.text(`GST: ${order.customerId.gstNumber}`, 20, currentY);
+    if (customer.gstNumber) {
+      doc.text(`GST: ${customer.gstNumber}`, 20, currentY);
     }
 
     currentY += 25;
 
     // GST and pricing calculations
     const gstRate = 0.18;
-    const productTotal = order.sellingPrice * order.quantityDelivered;
+    const productTotal = (product.sellingPrice || 0) * order.quantityDelivered;
     const baseAmount = productTotal / (1 + gstRate);
     const gstAmount = productTotal - baseAmount;
 
     const tableData = [
       [
-        order.productId.productName,
+        product.productName,
         order.quantityDelivered.toString(),
-        `₹${order.sellingPrice.toLocaleString()}`,
+        `₹${(product.sellingPrice || 0).toLocaleString()}`,
         `₹${productTotal.toLocaleString()}`
       ]
     ];
@@ -192,7 +185,8 @@ const CompletedOrdersPage = () => {
       }
     });
 
-    currentY = doc.lastAutoTable.finalY + 15;
+    // Use (doc as any).lastAutoTable.finalY for compatibility
+    currentY = (doc as any).lastAutoTable ? (doc as any).lastAutoTable.finalY + 15 : currentY + 30;
 
     // Summary
     const summaryX = pageWidth - 90;
@@ -319,6 +313,7 @@ const CompletedOrdersPage = () => {
           <AnimatePresence>
             <div className="p-4 space-y-4">
               {orders.map((order, index) => (
+                order.customerId && order.productId && (
                 <motion.div
                   key={order._id}
                   initial={{ opacity: 0, y: 20 }}
@@ -385,6 +380,7 @@ const CompletedOrdersPage = () => {
                     </CardContent>
                   </Card>
                 </motion.div>
+                )
               ))}
             </div>
           </AnimatePresence>

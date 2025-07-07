@@ -320,8 +320,8 @@ export default function ManualJobProductionInsights() {
       <Progress 
         value={value} 
         max={100}
-        className="h-2"
-        indicatorClassName={cn(
+        className={cn(
+          "h-2",
           value <= 3 ? 'bg-green-500' :
           value <= 5 ? 'bg-amber-500' :
           'bg-red-500'

@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import type { Customer } from "@/types";
 
 const paymentTermsColor = {
     "Net 30": "text-blue-500",
@@ -37,10 +38,10 @@ const orderFrequencyColor = {
     "Yearly": "text-orange-500",
 };
 
-export function BusinessCustomerDashboard({ customers = [] }) {
+export function BusinessCustomerDashboard({ customers = [] }: { customers?: Customer[] }) {
     const [searchTerm, setSearchTerm] = useState("");
 
-    const filteredCustomers = customers.filter((customer) =>
+    const filteredCustomers = customers.filter((customer: Customer) =>
         customer.customerName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         customer.email?.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -71,7 +72,7 @@ export function BusinessCustomerDashboard({ customers = [] }) {
             </div>
 
             <div className="grid grid-cols-1 gap-6">
-                {filteredCustomers.map((customer, index) => (
+                {filteredCustomers.map((customer: Customer, index: number) => (
                     <motion.div
                         key={customer._id}
                         initial={{ opacity: 0, y: 20 }}
@@ -99,8 +100,8 @@ export function BusinessCustomerDashboard({ customers = [] }) {
                                         <Badge
                                             className={cn(
                                                 "font-medium",
-                                                paymentTermsBg[customer.preferredPaymentTerms],
-                                                paymentTermsColor[customer.preferredPaymentTerms]
+                                                paymentTermsBg[customer.preferredPaymentTerms as keyof typeof paymentTermsBg],
+                                                paymentTermsColor[customer.preferredPaymentTerms as keyof typeof paymentTermsColor]
                                             )}
                                         >
                                             {customer.preferredPaymentTerms}
@@ -109,7 +110,7 @@ export function BusinessCustomerDashboard({ customers = [] }) {
                                             variant="outline"
                                             className={cn(
                                                 "font-medium",
-                                                orderFrequencyColor[customer.orderFrequency]
+                                                orderFrequencyColor[customer.orderFrequency as keyof typeof orderFrequencyColor]
                                             )}
                                         >
                                             {customer.orderFrequency} Orders
@@ -153,7 +154,7 @@ export function BusinessCustomerDashboard({ customers = [] }) {
                                                 </TableRow>
                                             </TableHeader>
                                             <TableBody>
-                                                {customer.productsOrdered?.map((product) => (
+                                                {customer.productsOrdered?.map((product: any) => (
                                                     <TableRow key={product.productId}>
                                                         <TableCell className="font-medium">
                                                             {product.productName}

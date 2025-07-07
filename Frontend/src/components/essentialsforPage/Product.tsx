@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
     Card,
     CardContent,
@@ -25,7 +25,6 @@ import {
     Truck,
     AlertCircle,
     Settings,
-    Loader2,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -132,7 +131,7 @@ export function ProductDashboard({ products = [] }: { products: Product[] }) {
 
             <div className="grid grid-cols-1 gap-6">
                 <AnimatePresence>
-                    {filteredProducts.map((product, index) => (
+                    {filteredProducts.map((product: Product, index: number) => (
                         <motion.div
                             key={product._id}
                             initial={{ opacity: 0, y: 20 }}
@@ -164,11 +163,11 @@ export function ProductDashboard({ products = [] }: { products: Product[] }) {
                                                     stockLevelBg[getStockLevel(
                                                         product.currentStock,
                                                         product.minimumStockLevel
-                                                    )],
+                                                    ) as keyof typeof stockLevelBg],
                                                     stockLevelColor[getStockLevel(
                                                         product.currentStock,
                                                         product.minimumStockLevel
-                                                    )]
+                                                    ) as keyof typeof stockLevelColor]
                                                 )}
                                             >
                                                 {product.currentStock} in stock

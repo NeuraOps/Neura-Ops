@@ -6,8 +6,6 @@ import { Activity, ArrowDown, ArrowUp } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 
-import { DivideIcon as LucideIcon } from 'lucide-react';
-
 import { Settings, TrendingDown, TrendingUp } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -206,7 +204,6 @@ import {
   Clock, 
   DollarSign, 
   Gauge,
-  BarChart 
 } from 'lucide-react';
 
 type SummaryMetricsProps = {
@@ -295,7 +292,7 @@ type StatCardProps = {
   title: string;
   value: number;
   description: string;
-  icon: LucideIcon;
+  icon: React.ElementType; // Changed from LucideIcon
   trend?: {
     value: number;
     label: string;
@@ -546,11 +543,10 @@ export function MachineMetricsCard({ data, machineId }: MachineMetricsCardProps)
               <Progress
                 value={Math.min(data.downtimePercent, 100)}
                 max={100}
-                className="h-1.5"
-                indicatorClassName={
+                className={`h-1.5 ${
                   data.downtimePercent <= 5 ? 'bg-green-600' :
                   data.downtimePercent <= 15 ? 'bg-amber-600' : 'bg-red-600'
-                }
+                }`}
               />
             </div>
             
@@ -567,11 +563,10 @@ export function MachineMetricsCard({ data, machineId }: MachineMetricsCardProps)
               <Progress
                 value={data.energyCostPerUnit * 500} // Scale for visibility
                 max={100}
-                className="h-1.5"
-                indicatorClassName={
+                className={`h-1.5 ${
                   data.energyCostPerUnit <= 0.1 ? 'bg-green-600' :
                   data.energyCostPerUnit <= 0.15 ? 'bg-amber-600' : 'bg-red-600'
-                }
+                }`}
               />
             </div>
             
@@ -637,8 +632,7 @@ function MetricProgress({
       <Progress 
         value={animate ? value : 0} 
         max={max}
-        className="h-2 transition-all duration-1000"
-        indicatorClassName={getColor()}
+        className={`h-2 transition-all duration-1000 ${getColor()}`}
       />
     </div>
   );

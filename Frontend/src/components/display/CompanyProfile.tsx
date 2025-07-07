@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
     Building2, 
@@ -35,20 +35,20 @@ interface Company {
     panNumber: string;
     phone: string;
     address: {
-        line1: string;
+        line1?: string;
         line2?: string;
-        city: string;
-        state: string;
-        country: string;
-        postalCode: string;
+        city?: string;
+        state?: string;
+        country?: string;
+        postalCode?: string;
     };
     companyLogo?: string;
     website?: string;
     authorizedPerson: {
-        name: string;
-        designation: string;
-        email: string;
-        phone: string;
+        name?: string;
+        designation?: string;
+        email?: string;
+        phone?: string;
     };
     isVerified: boolean;
     createdAt: string;
