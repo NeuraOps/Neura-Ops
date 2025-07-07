@@ -86,9 +86,9 @@ export function CompanyProfile({ onBack }: CompanyProfileProps) {
             const data = await response.json();
             setCompany(data.company);
             setEditData(data.company);
-        } catch (err) {
+        } catch (err: unknown) {
             console.error('Error fetching company data:', err);
-            setError(err instanceof Error ? err.message : 'Failed to fetch company data');
+            setError(err instanceof Error ? err.message : String(err));
         } finally {
             setLoading(false);
         }
@@ -116,9 +116,9 @@ export function CompanyProfile({ onBack }: CompanyProfileProps) {
             const data = await response.json();
             setCompany(data.company);
             setEditing(false);
-        } catch (err) {
+        } catch (err: unknown) {
             console.error('Error updating company profile:', err);
-            setError(err instanceof Error ? err.message : 'Failed to update profile');
+            setError(err instanceof Error ? err.message : String(err));
         } finally {
             setSaving(false);
         }
