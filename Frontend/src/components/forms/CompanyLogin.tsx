@@ -290,7 +290,7 @@ const Login: React.FC = () => {
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('company', JSON.stringify(data.company));
                 localStorage.setItem("isLoggedIn", "true");
-                navigate('/dashboard');
+                navigate('/companyprofile');
             } else {
                 setErrors({ general: data.msg || 'Invalid email or password' });
             }
